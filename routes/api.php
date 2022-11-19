@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PaynowWebhookController;
+use App\Http\Controllers\WebhookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(PaynowWebhookController::class)->group(function(){
-   Route::post('/paynow/return','returnUrl');
+    Route::post('/paynow/return','returnUrl');
     Route::post('/paynow/result','resultUrl');
+
+});
+
+Route::controller(WebhookController::class)->group(function(){
+    Route::get('/whatsapp/receiver','webhookSetup');
+    Route::post('/whatsapp/receiver','webhookReceiver');
 
 });

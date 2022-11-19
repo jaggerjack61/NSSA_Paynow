@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
+            $table->string('phone')->unique();
+            $table->string('status')->default('none');
             $table->timestamps();
         });
     }

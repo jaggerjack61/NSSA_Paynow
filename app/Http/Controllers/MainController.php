@@ -15,7 +15,7 @@ class MainController extends Controller
         return view('pages.home');
     }
 
-    public function getSSN()
+    public function getSSN($ID)
     {
         $client = new Client();
         $url['get-token']='https://selfservice.nssa.org.zw/EmployeeSignup/FindPerson';
@@ -26,18 +26,20 @@ class MainController extends Controller
 
         $response = $client->post(
             $url['form-action'],
-            ['form_params' => ['criteria' => 'NID', 'searchText' =>'632105381Q43']]
+            ['form_params' => ['criteria' => 'NID', 'searchText' =>$ID]]
         );
         $tree=new Crawler($response->getBody()->getContents());
         try{
             $SSN=$tree->filterXPath('//h6')->text();
             $SSN=substr($SSN,6);
             if(strlen($SSN)==8){
+                return $SSN;
                 dd($SSN);
             }
 
         }
         catch (\Exception $e){
+            return 'could not find SSN';
             dd($e->getMessage());
         }
 

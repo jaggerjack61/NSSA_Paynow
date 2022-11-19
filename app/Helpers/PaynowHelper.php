@@ -22,7 +22,7 @@ class PaynowHelper{
         foreach($items as $item){
             $payment->add($item[0],$item[1]);
         }
-        $response = $this->paynow->sendMobile($payment, '0771111111', 'ecocash');
+        $response = $this->paynow->sendMobile($payment, '0774444444', 'ecocash');
         dd($response);
     }
 
