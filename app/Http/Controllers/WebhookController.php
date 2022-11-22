@@ -82,15 +82,34 @@ class WebhookController extends Controller
         $message=$arr['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
         $client=Client::where('phone',$this->phone)->first();
         if($client->status=='none'){
-            $this->sendMsgInteractive(['SSN Look Up','Would you like to find out your SSN','Get started'],
+            $this->sendMsgInteractive(['SSN Look Up','Would you like to find out your SSN for a fee of $700 rtgs','Get started'],
             [['id'=>'yes','title'=>'YES'], ['id'=>'no','title'=>'NO']  ]);
 
         }
         elseif($client->status=='ID'){
             $ssn=new MainController();
-            $this->sendMsgText($ssn->getSSN($message));
-            $client->status='none';
-            $client->save();
+            $pattern='/[0-9]{9}[A-Z]{1}[0-9]{2}/i';
+            if(preg_match($pattern, $message)){
+                $ssnNo=$ssn->getSSN($message);
+                $pattern='/[0-9]{7}[A-Z]{1}/i';
+                if(preg_match($pattern, $ssnNo)){
+                    $this->sendMsgInteractive(['SSN Look Up','This service costs $700 rtgs how would you like to pay','Select Payment'],
+                        [['id'=>'eco','title'=>'ECOCASH'], ['id'=>'one','title'=>'One Wallet'], ['id'=>'bank','title'=>'Bank']  ]);
+                    $this->sendMsgText($ssn->getSSN($message));
+                    $client->status='none';
+                    $client->save();
+                }
+                else{
+                    $this->sendMsgText('We could not find your SSN. Visit a NSSA center to get direct assistance.');
+                    $client->status='none';
+                    $client->save();
+                }
+
+            }
+            else{
+                $this->sendMsgText('Please use the form 123456789X00');
+            }
+
         }
     }
 
@@ -98,7 +117,8 @@ class WebhookController extends Controller
     {
 
     }
-
+    //23114017f80
+    //631555305g50
     public function handleButton($arr)
     {
         $client=Client::where('phone',$this->phone)->first();
@@ -106,7 +126,7 @@ class WebhookController extends Controller
 
             $client->status='ID';
             $client->save();
-            $this->sendMsgText('Enter your Id in the form 641777505X59');
+            $this->sendMsgText('Enter your Id in the form 123456789X00');
         }
         elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='no'){
             $this->sendMsgText('Understandable have a nice day.');
