@@ -17,6 +17,7 @@ class MainController extends Controller
 
     public function getSSN($ID)
     {
+        //$ID='632105381Q43';
         $client = new Client();
         $url['get-token']='https://selfservice.nssa.org.zw/EmployeeSignup/FindPerson';
         $url['form-action'] = 'https://selfservice.nssa.org.zw/EmployeeSignup/GetPersonDetails';
@@ -29,17 +30,28 @@ class MainController extends Controller
             ['form_params' => ['criteria' => 'NID', 'searchText' =>$ID]]
         );
         $tree=new Crawler($response->getBody()->getContents());
+
+////        $tree->filter('.float-right')->each(function ($node) {
+////            $text = $node->filter('.text-sm')->text();
+////            echo $text;
+////        });
+//        dd($text);
         try{
             $SSN=$tree->filterXPath('//h6')->text();
             $SSN=substr($SSN,6);
             if(strlen($SSN)==8){
-                return $SSN;
+                $text=[];
+                $text=$tree->filter('.float-right')->each(function ($node) {
+                    return $node->text();
+                });
+                $text[2]=$SSN;
+                return $text;
                 dd($SSN);
             }
 
         }
         catch (\Exception $e){
-            return 'could not find SSN';
+            return array('not','found','error');
             dd($e->getMessage());
         }
 

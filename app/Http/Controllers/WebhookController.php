@@ -92,10 +92,10 @@ class WebhookController extends Controller
             if(preg_match($pattern, $message)){
                 $ssnNo=$ssn->getSSN($message);
                 $pattern='/[0-9]{7}[A-Z]{1}/i';
-                if(preg_match($pattern, $ssnNo)){
-                    $this->sendMsgInteractive(['SSN Look Up','This service costs $700 rtgs how would you like to pay','Select Payment'],
-                        [['id'=>'eco','title'=>'ECOCASH'], ['id'=>'one','title'=>'One Wallet'], ['id'=>'bank','title'=>'Bank']  ]);
-                    $this->sendMsgText($ssn->getSSN($message));
+                if(preg_match($pattern, $ssnNo[2])){
+                    $this->sendMsgInteractive(['SSN Look Up','Hie '.$ssnNo[0].' '.$ssnNo[1].' we found your SSN please select a payment method','Select Payment'],
+                        [['id'=>'eco','title'=>'Eco Cash'], ['id'=>'one','title'=>'One Wallet'], ['id'=>'no','title'=>'Cancel']  ]);
+                    //$this->sendMsgText($ssnNo[2]);
                     $client->status='none';
                     $client->save();
                 }
