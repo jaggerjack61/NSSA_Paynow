@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Detail;
 use App\Models\WhatsappSetting;
 use Illuminate\Http\Request;
 
@@ -87,23 +88,39 @@ class WebhookController extends Controller
 
         }
         elseif($client->status=='ID'){
-            $ssn=new MainController();
+
             $pattern='/[0-9]{9}[A-Z]{1}[0-9]{2}/i';
             if(preg_match($pattern, $message)){
-                $ssnNo=$ssn->getSSN($message);
-                $pattern='/[0-9]{7}[A-Z]{1}/i';
-                if(preg_match($pattern, $ssnNo[2])){
-                    $this->sendMsgInteractive(['SSN Look Up','Hie '.$ssnNo[0].' '.$ssnNo[1].' we found your SSN please select a payment method','Select Payment'],
+                $details=Detail::where('id_number',$message)->first();
+                if($details){
+                    $this->sendMsgInteractive(['SSN Look Up','Hie '.$details->firstname.' '.$details->lastname.' we found your SSN please select a payment method','Select Payment'],
                         [['id'=>'eco','title'=>'Eco Cash'], ['id'=>'one','title'=>'One Wallet'], ['id'=>'no','title'=>'Cancel']  ]);
                     //$this->sendMsgText($ssnNo[2]);
                     $client->status='none';
                     $client->save();
                 }
                 else{
-                    $this->sendMsgText('We could not find your SSN. Visit a NSSA center to get direct assistance.');
-                    $client->status='none';
-                    $client->save();
+
+                    $ssn=new MainController();
+                    $ssn->getSSN($message);
+                    $details=Detail::where('id_number',$message)->first();
+                    if($details){
+                        $pattern='/[0-9]{7}[A-Z]{1}/i';
+                        if(preg_match($pattern, $details->ssn)){
+                            $this->sendMsgInteractive(['SSN Look Up','Hie '.$details->firstname.' '.$details->lastname.' we found your SSN please select a payment method','Select Payment'],
+                                [['id'=>'eco','title'=>'Eco Cash'], ['id'=>'one','title'=>'One Wallet'], ['id'=>'no','title'=>'Cancel']  ]);
+                            //$this->sendMsgText($ssnNo[2]);
+                            $client->status='none';
+                            $client->save();
+                        }
+                    }
+                    else{
+                        $this->sendMsgText('We could not find your SSN. Visit a NSSA center to get direct assistance.');
+                        $client->status='none';
+                        $client->save();
+                    }
                 }
+
 
             }
             else{

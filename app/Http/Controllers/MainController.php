@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\PaynowHelper;
+use App\Models\Detail;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Symfony\Component\DomCrawler\Crawler;
@@ -18,6 +19,7 @@ class MainController extends Controller
     public function getSSN($ID)
     {
         //$ID='632105381Q43';
+
         $client = new Client();
         $url['get-token']='https://selfservice.nssa.org.zw/EmployeeSignup/FindPerson';
         $url['form-action'] = 'https://selfservice.nssa.org.zw/EmployeeSignup/GetPersonDetails';
@@ -45,8 +47,17 @@ class MainController extends Controller
                     return $node->text();
                 });
                 $text[2]=$SSN;
-                return $text;
-                dd($SSN);
+
+                Detail::create([
+                    'id_number'=>$ID,
+                    'ssn'=>$SSN,
+                    'firstname'=>$text[0],
+                    'lastname'=>$text[1]
+                ]);
+                //return $details;
+
+
+                //dd($SSN);
             }
 
         }
