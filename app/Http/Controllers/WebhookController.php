@@ -38,6 +38,12 @@ class WebhookController extends Controller
         return $settings->phoneId;
     }
 
+    public function transactionAmount():float
+    {
+        $settings=WhatsappSetting::first();
+        return $settings->amount;
+    }
+
 
     public function webhookReceiver(Request $request)
     {
@@ -83,7 +89,7 @@ class WebhookController extends Controller
         $message=$arr['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
         $client=Client::where('phone',$this->phone)->first();
         if($client->status=='none'){
-            $this->sendMsgInteractive(['SSN Look Up','Would you like to find out your SSN for a fee of $700 rtgs','Get started'],
+            $this->sendMsgInteractive(['SSN Look Up','Would you like to find out your SSN for a fee of $'.$this->transactionAmount().' rtgs','Get started'],
             [['id'=>'yes','title'=>'YES'], ['id'=>'no','title'=>'NO']  ]);
 
         }
