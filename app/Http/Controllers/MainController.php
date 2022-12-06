@@ -12,8 +12,14 @@ class MainController extends Controller
 {
     public function index(PaynowHelper $pay)
     {
-        $pay->makePaymentMobile('unique','jarai.samuel@gmail.com',[['SSN Request',1]]);
-        return view('pages.home');
+        return view('welcome');
+        // $pay->makePaymentMobile('unique','jarai.samuel@gmail.com',[['SSN Request',1]]);
+        // return view('pages.home');
+    }
+
+    public function dashboard()
+    {
+        return view('pages.dashboard');
     }
 
     public function getSSN($ID)

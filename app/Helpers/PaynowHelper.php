@@ -10,7 +10,7 @@ class PaynowHelper{
     public $returnUrl = 'https://7498-208-78-41-150.ngrok.io/api/paynow/return';
     public  $resultUrl = 'https://5735-208-78-41-157.ngrok.io/api/paynow/result';
 
-    function __construct()
+    public function __construct()
     {
 
         $this->paynow = new Paynow($this->id,$this->key,$this->returnUrl,$this->resultUrl);

@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('client_requests', function (Blueprint $table) {
             $table->id();
-            $table->string('payment');
-            $table->string('SSN');
+            $table->string('payment_status');
+            $table->string('details_id');
             $table->timestamps();
         });
     }

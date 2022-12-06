@@ -6,11 +6,18 @@ use App\Models\Client;
 use App\Models\Detail;
 use App\Models\WhatsappSetting;
 use Illuminate\Http\Request;
+use App\Helpers\PaynowHelper;
 
 class WebhookController extends Controller
 {
     public $phone;
     public $company ='Virl Micro-Finance';
+    public $pay;
+
+    public function __construct()
+    {
+        $this->pay=New PaynowHelper();
+    }
 
 
     public function webhookSetup(Request $request)
@@ -114,7 +121,7 @@ class WebhookController extends Controller
                         $pattern='/[0-9]{7}[A-Z]{1}/i';
                         if(preg_match($pattern, $details->ssn)){
                             $this->sendMsgInteractive(['SSN Look Up','Hie '.$details->firstname.' '.$details->lastname.' we found your SSN please select a payment method','Select Payment'],
-                                [['id'=>'eco','title'=>'Eco Cash'], ['id'=>'one','title'=>'One Wallet'], ['id'=>'no','title'=>'Cancel']  ]);
+                                [['id'=>'ecocash','title'=>'Eco Cash'], ['id'=>'onemoney','title'=>'One Money'], ['id'=>'no','title'=>'Cancel']  ]);
                             //$this->sendMsgText($ssnNo[2]);
                             $client->status='none';
                             $client->save();
@@ -153,6 +160,16 @@ class WebhookController extends Controller
         }
         elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='no'){
             $this->sendMsgText('Understandable have a nice day.');
+        }
+        elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='ecocash'){
+            $client->status='ecocash';
+            $client->save();
+            $this->sendMsgText('Please enter the ecocash number to be charged.');
+        }
+        elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='onemoney'){
+            $client->status='onemoney';
+            $client->save();
+            $this->sendMsgText('Please enter the one money number to be charged.');
         }
     }
 

@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('reference');
+            $table->string('reference')->nullable();
             $table->string('unique_id')->unique();
             $table->string('amount');
-            $table->string('status');
+            $table->string('status')->default('preresponse');
+            $table->string('details_id');
+            $table->string('poll_url')->nullable();
             $table->timestamps();
         });
     }
