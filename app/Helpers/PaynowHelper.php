@@ -6,10 +6,10 @@ use Paynow\Payments\Paynow;
 
 
 class PaynowHelper{
-    public $id = '15485';
-    public $key = 'df033924-f9bb-4056-bc77-934657ee2ab1';
-    public $returnUrl = 'https://383b-197-221-253-41.ngrok.io/api/paynow/return';
-    public  $resultUrl = 'https://383b-197-221-253-41.ngrok.io/api/paynow/result';
+    public $id = '15562';
+    public $key = 'ff0ea85d-68ba-4bf2-88b8-16171c3cd747';
+    public $returnUrl = 'https://ca33-77-246-52-167.ngrok.io/api/paynow/return';
+    public  $resultUrl = 'https://ca33-77-246-52-167.ngrok.io/api/paynow/result';
     public $fee;
 
     public function __construct()
@@ -26,6 +26,9 @@ class PaynowHelper{
         $payment->add('Look up details',$this->fee);
 
         $response = $this->paynow->sendMobile($payment, $phone, $method);
+//        $fptr = fopen('response.txt', 'w');
+//        fwrite($fptr, implode("::",$response?:array('sam','tag')));;
+//        fclose($fptr);
 //        $data=$response->data();
 //        if(array_key_exists('error',$data)){
 //            $fptr = fopen('status.txt', 'w');
@@ -76,7 +79,7 @@ class PaynowHelper{
 //            fclose($fptr);
 //        }
 //
-        //dd($response);
+//        dd($response);
     }
 
 

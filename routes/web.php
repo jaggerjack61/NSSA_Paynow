@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::controller(MainController::class)->group(function(){
    Route::get('/','index')->name('home');
    Route::get('/SSN','getSSN');
+   Route::get('/test','test');
    Route::get('/dashboard','dashboard')->name('dashboard')->middleware('auth');
 });
 Route::controller(AuthController::class)->group(function(){

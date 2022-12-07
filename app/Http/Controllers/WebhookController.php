@@ -157,8 +157,8 @@ class WebhookController extends Controller
                 $client->status='none';
                 $client->save();
                 $pay=new PaynowHelper();
-                $pay->makePaymentMobile($this->phone,'jarai.samuel@gmail.com',$message,'ecocash');
-                $this->sendMsgText('payment');
+                $pay->makePaymentMobile($this->phone,'catchesystems263@gmail.com',$message,'ecocash');
+                $this->sendMsgText('Please wait');
             }
             else{
                 $this->sendMsgText('Please enter a valid Eco Cash number');

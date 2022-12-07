@@ -15,59 +15,47 @@ class PaynowWebhookController extends Controller
         fwrite($fptr, json_encode($request->all()));
         fclose($fptr);
         $data=$request->all();
-        if(array_key_exists('error',$data)){
-            $fptr = fopen('status.txt', 'w');
-            fwrite($fptr, 'Error');
-            fclose($fptr);
-        }
-        else{
-            $client = new Client();
 
-            while(1==1){
-                $response=$client->get($data['pollurl'])->getBody()->getContents();
-                parse_str($response,$output);
-                if($output['status']=='Paid'){
-                    $ssn=ClientRequest::where('phone',$output['reference'])->latest()->first()->details->ssn;
-                    $msg->sendMsgText2($output['reference'],$ssn);
+                if($request['status']=='Paid'){
+                    $ssn=ClientRequest::where('phone',$request['reference'])->latest()->first()->details->ssn;
+                    $msg->sendMsgText2($request['reference'],'Your SSN is '.$ssn);
                     $fptr = fopen('status.txt', 'w');
                     fwrite($fptr, 'Paid');
                     fclose($fptr);
-                    break;
+
                 }
-                elseif($output['status']=='Sent'){
+                elseif($request['status']=='Sent'){
                     $fptr = fopen('status.txt', 'w');
                     fwrite($fptr, 'Sent');
                     fclose($fptr);
                     sleep(1);
                 }
-                elseif($output['status']=='Failed'){
+                elseif($request['status']=='Failed'){
 
-                    $msg->sendMsgText2($output['reference'],'failed');
+                    $msg->sendMsgText2($request['reference'],'Transaction failed.');
                     $fptr = fopen('status.txt', 'w');
                     fwrite($fptr, 'Failed');
                     fclose($fptr);
-                    break;
+
 
                 }
-                elseif($output['status']=='Cancelled'){
-                    $msg->sendMsgText2($output['reference'],'cancelled');
+                elseif($request['status']=='Cancelled'){
+                    $msg->sendMsgText2($request['reference'],'The transaction has been cancelled.');
                     $fptr = fopen('status.txt', 'w');
                     fwrite($fptr, 'Cancelled');
                     fclose($fptr);
-                    break;
+
                 }
-                elseif($output['status']=='Insufficient funds'){
+                elseif($request['status']=='Insufficient funds'){
+                    $msg->sendMsgText2($request['reference'],'You have an insufficient balance.');
                     $fptr = fopen('status.txt', 'w');
                     fwrite($fptr, 'Insufficient funds');
                     fclose($fptr);
-                    break;
-                }
-            }
 
-//            $fptr = fopen('myfile2.txt', 'w');
-//            fwrite($fptr, $output['status'].$output['reference'].$output['paynowreference']);
-//            fclose($fptr);
-        }
+                }
+
+        return response('',200);
+
 
     }
     public function returnUrl(Request $request)

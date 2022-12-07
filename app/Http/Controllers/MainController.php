@@ -74,4 +74,10 @@ class MainController extends Controller
 
 
     }
+
+    public function test(){
+        $pay=new PaynowHelper();
+        $pay->makePaymentMobile('263775361584','catchesystems263@gmail.com','0774444444','ecocash');
+        return view('welcome');
+    }
 }
