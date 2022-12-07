@@ -1,5 +1,6 @@
 <?php
 namespace App\Helpers;
+use App\Models\WhatsappSetting;
 use GuzzleHttp\Client;
 use Paynow\Payments\Paynow;
 
@@ -7,23 +8,24 @@ use Paynow\Payments\Paynow;
 class PaynowHelper{
     public $id = '15485';
     public $key = 'df033924-f9bb-4056-bc77-934657ee2ab1';
-    public $returnUrl = 'https://7498-208-78-41-150.ngrok.io/api/paynow/return';
-    public  $resultUrl = 'https://5735-208-78-41-157.ngrok.io/api/paynow/result';
+    public $returnUrl = 'https://383b-197-221-253-41.ngrok.io/api/paynow/return';
+    public  $resultUrl = 'https://383b-197-221-253-41.ngrok.io/api/paynow/result';
+    public $fee;
 
     public function __construct()
     {
-
+        $this->fee=WhatsappSetting::first()->amount;
         $this->paynow = new Paynow($this->id,$this->key,$this->returnUrl,$this->resultUrl);
 
     }
 
-    public function makePaymentMobile($paymentId,$userId,$items)
+    public function makePaymentMobile($paymentId,$email,$phone,$method)
     {
-        $payment=$this->paynow->createPayment($paymentId,$userId);
-        foreach($items as $item){
-            $payment->add($item[0],$item[1]);
-        }
-        $response = $this->paynow->sendMobile($payment, '0771111111', 'ecocash');
+        $payment=$this->paynow->createPayment($paymentId,$email);
+
+        $payment->add('Look up details',$this->fee);
+
+        $response = $this->paynow->sendMobile($payment, $phone, $method);
 //        $data=$response->data();
 //        if(array_key_exists('error',$data)){
 //            $fptr = fopen('status.txt', 'w');
@@ -74,7 +76,7 @@ class PaynowHelper{
 //            fclose($fptr);
 //        }
 //
-        dd($response);
+        //dd($response);
     }
 
 

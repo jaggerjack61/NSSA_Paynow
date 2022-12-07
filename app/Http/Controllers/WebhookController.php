@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\ClientRequest;
 use App\Models\Detail;
 use App\Models\WhatsappSetting;
 use Illuminate\Http\Request;
@@ -106,8 +107,12 @@ class WebhookController extends Controller
             if(preg_match($pattern, $message)){
                 $details=Detail::where('id_number',$message)->first();
                 if($details){
+                    $req=new ClientRequest();
+                    $req->phone=$this->phone;
+                    $req->details_id=$details->id;
+                    $req->save();
                     $this->sendMsgInteractive(['SSN Look Up','Hie '.$details->firstname.' '.$details->lastname.' we found your SSN please select a payment method','Select Payment'],
-                        [['id'=>'eco','title'=>'Eco Cash'], ['id'=>'one','title'=>'One Wallet'], ['id'=>'no','title'=>'Cancel']  ]);
+                        [['id'=>'ecocash','title'=>'Eco Cash'], ['id'=>'onewallet','title'=>'One Wallet'], ['id'=>'no','title'=>'Cancel']  ]);
                     //$this->sendMsgText($ssnNo[2]);
                     $client->status='none';
                     $client->save();
@@ -118,6 +123,10 @@ class WebhookController extends Controller
                     $ssn->getSSN($message);
                     $details=Detail::where('id_number',$message)->first();
                     if($details){
+                        $req=new ClientRequest();
+                        $req->phone=$this->phone;
+                        $req->details_id=$details->id;
+                        $req->save();
                         $pattern='/[0-9]{7}[A-Z]{1}/i';
                         if(preg_match($pattern, $details->ssn)){
                             $this->sendMsgInteractive(['SSN Look Up','Hie '.$details->firstname.' '.$details->lastname.' we found your SSN please select a payment method','Select Payment'],
@@ -136,8 +145,23 @@ class WebhookController extends Controller
 
 
             }
+
             else{
                 $this->sendMsgText('Please use the form 123456789X00');
+            }
+
+        }
+        elseif($client->status=='ecocash'){
+            $pattern='/[0-9]{10}/i';
+            if(preg_match($pattern, $message)) {
+                $client->status='none';
+                $client->save();
+                $pay=new PaynowHelper();
+                $pay->makePaymentMobile($this->phone,'jarai.samuel@gmail.com',$message,'ecocash');
+                $this->sendMsgText('payment');
+            }
+            else{
+                $this->sendMsgText('Please enter a valid Eco Cash number');
             }
 
         }
@@ -185,6 +209,29 @@ class WebhookController extends Controller
                 "preview_url": false,
                 "recipient_type": "individual",
                 "to": "'.$this->phone.'",
+                "type": "text",
+                "text": {
+                    "body": "'. $textMsg .'"
+                }
+            }';
+
+        $request = new \GuzzleHttp\Psr7\Request('POST', 'https://graph.facebook.com/v13.0/'.$this->webhookId().'/messages', $headers, $body);
+        $res = $client->sendAsync($request)->wait();
+        echo $res->getBody();
+    }
+
+    public function sendMsgText2($phone,$textMsg)
+    {
+        $client = new \GuzzleHttp\Client();
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer '.$this->webhookToken()
+        ];
+        $body = '{
+                "messaging_product": "whatsapp",
+                "preview_url": false,
+                "recipient_type": "individual",
+                "to": "'.$phone.'",
                 "type": "text",
                 "text": {
                     "body": "'. $textMsg .'"

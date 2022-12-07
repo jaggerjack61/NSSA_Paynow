@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('status')->default('preresponse');
             $table->string('details_id');
             $table->string('poll_url')->nullable();
+            $table->string('client_requests_id');
             $table->timestamps();
         });
     }

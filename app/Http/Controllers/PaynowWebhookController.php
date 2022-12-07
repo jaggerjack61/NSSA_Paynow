@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClientRequest;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
@@ -9,6 +10,7 @@ class PaynowWebhookController extends Controller
 {
     public function resultUrl(Request $request)
     {
+        $msg=new WebhookController();
         $fptr = fopen('myfile1.json', 'w');
         fwrite($fptr, json_encode($request->all()));
         fclose($fptr);
@@ -25,6 +27,8 @@ class PaynowWebhookController extends Controller
                 $response=$client->get($data['pollurl'])->getBody()->getContents();
                 parse_str($response,$output);
                 if($output['status']=='Paid'){
+                    $ssn=ClientRequest::where('phone',$output['reference'])->latest()->first()->details->ssn;
+                    $msg->sendMsgText2($output['reference'],$ssn);
                     $fptr = fopen('status.txt', 'w');
                     fwrite($fptr, 'Paid');
                     fclose($fptr);
@@ -37,6 +41,8 @@ class PaynowWebhookController extends Controller
                     sleep(1);
                 }
                 elseif($output['status']=='Failed'){
+
+                    $msg->sendMsgText2($output['reference'],'failed');
                     $fptr = fopen('status.txt', 'w');
                     fwrite($fptr, 'Failed');
                     fclose($fptr);
@@ -44,6 +50,7 @@ class PaynowWebhookController extends Controller
 
                 }
                 elseif($output['status']=='Cancelled'){
+                    $msg->sendMsgText2($output['reference'],'cancelled');
                     $fptr = fopen('status.txt', 'w');
                     fwrite($fptr, 'Cancelled');
                     fclose($fptr);
