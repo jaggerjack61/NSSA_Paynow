@@ -11,7 +11,7 @@
     <body>
     <nav class="navbar navbar-expand-sm navbar-light bg-light rounded shadow mb-3">
         <div class="container">
-            <a class="navbar-brand" href="#">Bureau of Records</a>
+            <a class="navbar-brand" href="{{route('dashboard')}}">Bureau of Records</a>
             <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -21,7 +21,7 @@
                         <a class="nav-link" href="#about">Reports</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#service">Settings</a>
+                        <a class="nav-link" href="{{route('settings')}}">Settings</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('logout')}}">Logout</a>

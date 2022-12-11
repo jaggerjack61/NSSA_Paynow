@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\PaynowHelper;
 use App\Models\Detail;
+use App\Models\WhatsappSetting;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Symfony\Component\DomCrawler\Crawler;
@@ -79,5 +80,19 @@ class MainController extends Controller
         $pay=new PaynowHelper();
         $pay->makePaymentMobile('263775361584','catchesystems263@gmail.com','0774444444','ecocash');
         return view('welcome');
+    }
+
+    public function showSettings()
+    {
+        $settings=WhatsappSetting::first();
+        return view('pages.settings',compact('settings'));
+    }
+
+    public function setSettings(Request $request)
+    {
+     $settings=WhatsappSetting::first();
+     $settings->amount=$request->amount;
+     $settings->save();
+     return back();
     }
 }

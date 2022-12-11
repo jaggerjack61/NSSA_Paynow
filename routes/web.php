@@ -21,6 +21,8 @@ Route::controller(MainController::class)->group(function(){
    Route::get('/SSN','getSSN');
    Route::get('/test','test');
    Route::get('/dashboard','dashboard')->name('dashboard')->middleware('auth');
+   Route::get('/settings','showSettings')->name('settings')->middleware('auth');
+   Route::post('/settings','setSettings')->name('save-settings')->middleware('auth');
 });
 Route::controller(AuthController::class)->group(function(){
    Route::post('/','login')->name('login');

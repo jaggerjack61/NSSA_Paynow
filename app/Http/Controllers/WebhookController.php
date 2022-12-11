@@ -97,7 +97,7 @@ class WebhookController extends Controller
         $message=$arr['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
         $client=Client::where('phone',$this->phone)->first();
         if($client->status=='none'){
-            $this->sendMsgInteractive(['SSN Look Up','Would you like to find out your SSN for a fee of $'.$this->transactionAmount().' rtgs','Get started'],
+            $this->sendMsgInteractive(['SSN Look Up','Would you like to find out your SSN for a fee of $'.$this->transactionAmount().' ZWL','Get started'],
             [['id'=>'yes','title'=>'YES'], ['id'=>'no','title'=>'NO']  ]);
 
         }
@@ -112,7 +112,7 @@ class WebhookController extends Controller
                     $req->details_id=$details->id;
                     $req->save();
                     $this->sendMsgInteractive(['SSN Look Up','Hie '.$details->firstname.' '.$details->lastname.' we found your SSN please select a payment method','Select Payment'],
-                        [['id'=>'ecocash','title'=>'Eco Cash'], ['id'=>'onewallet','title'=>'One Wallet'], ['id'=>'no','title'=>'Cancel']  ]);
+                        [['id'=>'ecocash','title'=>'Eco Cash'], ['id'=>'onewallet','title'=>'One Wallet'], ['id'=>'telecash','title'=>'Telecash']  ]);
                     //$this->sendMsgText($ssnNo[2]);
                     $client->status='none';
                     $client->save();
@@ -130,7 +130,7 @@ class WebhookController extends Controller
                         $pattern='/[0-9]{7}[A-Z]{1}/i';
                         if(preg_match($pattern, $details->ssn)){
                             $this->sendMsgInteractive(['SSN Look Up','Hie '.$details->firstname.' '.$details->lastname.' we found your SSN please select a payment method','Select Payment'],
-                                [['id'=>'ecocash','title'=>'Eco Cash'], ['id'=>'onemoney','title'=>'One Money'], ['id'=>'no','title'=>'Cancel']  ]);
+                                [['id'=>'ecocash','title'=>'Eco Cash'], ['id'=>'onemoney','title'=>'One Money'], ['id'=>'telecash','title'=>'Telecash']  ]);
                             //$this->sendMsgText($ssnNo[2]);
                             $client->status='none';
                             $client->save();
@@ -161,7 +161,39 @@ class WebhookController extends Controller
                 $this->sendMsgText('Please wait');
             }
             else{
-                $this->sendMsgText('Please enter a valid Eco Cash number');
+                $this->sendMsgInteractive(['Bureau of Records','Please enter a valid Eco Cash number','Payment'],
+                    [['id'=>'no','title'=>'Cancel']]);
+
+            }
+
+        }
+        elseif($client->status=='onewallet'){
+            $pattern='/[0-9]{10}/i';
+            if(preg_match($pattern, $message)) {
+                $client->status='none';
+                $client->save();
+                $pay=new PaynowHelper();
+                $pay->makePaymentMobile($this->phone,'catchesystems263@gmail.com',$message,'onewallet');
+                $this->sendMsgText('Please wait');
+            }
+            else{
+                $this->sendMsgInteractive(['Bureau of Records','Please enter a valid One Wallet number','Payment'],
+                    [['id'=>'no','title'=>'Cancel']]);
+            }
+
+        }
+        elseif($client->status=='telecash'){
+            $pattern='/[0-9]{10}/i';
+            if(preg_match($pattern, $message)) {
+                $client->status='none';
+                $client->save();
+                $pay=new PaynowHelper();
+                $pay->makePaymentMobile($this->phone,'catchesystems263@gmail.com',$message,'telecash');
+                $this->sendMsgText('Please wait');
+            }
+            else{
+                $this->sendMsgInteractive(['Bureau of Records','Please enter a valid Telecash number','Payment'],
+                    [['id'=>'no','title'=>'Cancel']]);
             }
 
         }
@@ -183,17 +215,27 @@ class WebhookController extends Controller
             $this->sendMsgText('Enter your Id in the form 123456789X00');
         }
         elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='no'){
+            $client->status='none';
+            $client->save();
             $this->sendMsgText('Understandable have a nice day.');
         }
         elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='ecocash'){
             $client->status='ecocash';
             $client->save();
-            $this->sendMsgText('Please enter the ecocash number to be charged.');
+            $this->sendMsgInteractive(['Bureau of Records','Please enter a valid Eco Cash number','Payment'],
+                [['id'=>'no','title'=>'Cancel']]);
         }
-        elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='onemoney'){
-            $client->status='onemoney';
+        elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='onewallet'){
+            $client->status='onewallet';
             $client->save();
-            $this->sendMsgText('Please enter the one money number to be charged.');
+            $this->sendMsgInteractive(['Bureau of Records','Please enter a valid One Wallet number','Payment'],
+                [['id'=>'no','title'=>'Cancel']]);
+        }
+        elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='telecash'){
+            $client->status='telecash';
+            $client->save();
+            $this->sendMsgInteractive(['Bureau of Records','Please enter a valid Telecash number','Payment'],
+                [['id'=>'no','title'=>'Cancel']]);
         }
     }
 
