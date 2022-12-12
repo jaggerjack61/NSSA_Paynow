@@ -19,9 +19,16 @@
                 <li class="item">
                     <a class="link" data-toggle="modal" data-target="#contact-us">Contact Us</a>
                 </li>
+                @guest()
                 <li class="item">
                     <a class="link" data-toggle="modal" data-target="#login">Login</a>
                 </li>
+                @endguest
+                @auth()
+                    <li class="item">
+                        <a class="link" href="{{route('dashboard')}}">Dashboard</a>
+                    </li>
+                @endauth
 
             </ul>
             <a href="javascript:void(0)" id="nav-toggle" class="hamburger hamburger--elastic">

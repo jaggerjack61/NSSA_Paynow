@@ -95,4 +95,10 @@ class MainController extends Controller
      $settings->save();
      return back();
     }
+
+    public function showReports()
+    {
+
+        return view('pages.reports');
+    }
 }

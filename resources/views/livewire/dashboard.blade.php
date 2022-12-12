@@ -1,4 +1,5 @@
 <div>
+    <div class="p-4">
     <h2>Transactions</h2>
     <table  class="table table-striped">
         <thead>
@@ -25,4 +26,5 @@
         </tbody>
     </table>
     {{$payments->links()}}
+    </div>
 </div>
