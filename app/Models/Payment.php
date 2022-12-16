@@ -11,8 +11,8 @@ class Payment extends Model
     use HasFactory;
     protected $guarded=[];
 
-    public function client():belongsTo
+    public function details():belongsTo
     {
-        return $this->belongsTo(ClientRequest::class,'details_id');
+        return $this->belongsTo(Detail::class,'details_id');
     }
 }

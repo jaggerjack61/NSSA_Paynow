@@ -19,8 +19,8 @@
                 <td>{{$payment->unique_id}}</td>
                 <td>{{$payment->status}}</td>
                 <td>{{$payment->amount}}</td>
-                <td>{{$payment->client->details->firstname.' '.$payment->client->details->lastname}}</td>
-                <td>{{$payment->client->details->ssn}}</td>
+                <td>{{$payment->details->firstname.' '.$payment->details->lastname}}</td>
+                <td>{{$payment->details->ssn}}</td>
             </tr>
         @endforeach
         </tbody>

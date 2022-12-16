@@ -158,8 +158,9 @@ class WebhookController extends Controller
                 $client->status='none';
                 $client->save();
                 $pay=new PaynowHelper();
-                $pay->makePaymentMobile($this->phone,'catchesystems263@gmail.com',$message,'ecocash');
                 $this->sendMsgText('Please wait');
+                $pay->makePaymentMobile($this->phone,'catchesystems263@gmail.com',$message,'ecocash');
+
             }
             else{
                 $this->sendMsgInteractive(['Bureau of Records','Please enter a valid Eco Cash number','Payment'],
@@ -174,8 +175,9 @@ class WebhookController extends Controller
                 $client->status='none';
                 $client->save();
                 $pay=new PaynowHelper();
-                $pay->makePaymentMobile($this->phone,'catchesystems263@gmail.com',$message,'onewallet');
                 $this->sendMsgText('Please wait');
+                $pay->makePaymentMobile($this->phone,'catchesystems263@gmail.com',$message,'onewallet');
+
             }
             else{
                 $this->sendMsgInteractive(['Bureau of Records','Please enter a valid One Wallet number','Payment'],
@@ -189,8 +191,9 @@ class WebhookController extends Controller
                 $client->status='none';
                 $client->save();
                 $pay=new PaynowHelper();
-                $pay->makePaymentMobile($this->phone,'catchesystems263@gmail.com',$message,'telecash');
                 $this->sendMsgText('Please wait');
+                $pay->makePaymentMobile($this->phone,'catchesystems263@gmail.com',$message,'telecash');
+
             }
             else{
                 $this->sendMsgInteractive(['Bureau of Records','Please enter a valid Telecash number','Payment'],
