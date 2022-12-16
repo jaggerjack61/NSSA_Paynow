@@ -45,11 +45,11 @@
         <div class="header-content container">
             <h1 class="header-title">
                 <span class="up">HI!</span>
-                <span class="down">Whatsapp 0777777777</span>
+                <span class="down">Whatsapp 0778839711</span>
             </h1>
             <p class="header-subtitle">Find out your SSN today.</p>
 
-            <a class="btn btn-success" href="https://wa.me/0777777777">Goto Whatsapp</a>
+            <a class="btn btn-success" href="https://wa.me/263778839711">Goto Whatsapp</a>
         </div>
     </header><!-- end of page header -->
 

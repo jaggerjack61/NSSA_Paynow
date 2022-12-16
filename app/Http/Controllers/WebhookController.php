@@ -102,9 +102,10 @@ class WebhookController extends Controller
 
         }
         elseif($client->status=='ID'){
-
+            $message=str_replace('-','',$message);
             $pattern='/[0-9]{9}[A-Z]{1}[0-9]{2}/i';
-            if(preg_match($pattern, $message)){
+            $pattern2='/[0-9]{8}[A-Z]{1}[0-9]{2}/i';
+            if(preg_match($pattern, $message) or preg_match($pattern2, $message)){
                 $details=Detail::where('id_number',$message)->first();
                 if($details){
                     $req=new ClientRequest();

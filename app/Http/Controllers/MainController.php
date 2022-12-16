@@ -101,4 +101,9 @@ class MainController extends Controller
 
         return view('pages.reports');
     }
+
+    public function showPolicy()
+    {
+        return view('pages.privacy-policy');
+    }
 }

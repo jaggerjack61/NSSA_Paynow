@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('token');
             $table->string('phoneId');
-            $table->float('amount')->default(0);
+            $table->float('amount')->default(1);
             $table->timestamps();
         });
     }
