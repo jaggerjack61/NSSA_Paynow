@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdvancedWebhookController;
 use App\Http\Controllers\PaynowWebhookController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ Route::controller(PaynowWebhookController::class)->group(function(){
 
 });
 
-Route::controller(WebhookController::class)->group(function(){
+Route::controller(AdvancedWebhookController::class)->group(function(){
     Route::get('/whatsapp/receiver','webhookSetup');
     Route::post('/whatsapp/receiver','webhookReceiver');
 
