@@ -15,4 +15,8 @@ class Payment extends Model
     {
         return $this->belongsTo(Detail::class,'details_id');
     }
+    public function reg():belongsTo
+    {
+        return $this->belongsTo(Registration::class,'reference','phone');
+    }
 }

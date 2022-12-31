@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\PaynowHelper;
 use App\Models\Detail;
+use App\Models\Registration;
 use App\Models\WhatsappSetting;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -91,7 +92,8 @@ class MainController extends Controller
     public function setSettings(Request $request)
     {
      $settings=WhatsappSetting::first();
-     $settings->amount=$request->amount;
+     $settings->amount_check=$request->amount_check;
+     $settings->amount_register=$request->amount_register;
      $settings->save();
      return back();
     }
@@ -105,5 +107,23 @@ class MainController extends Controller
     public function showPolicy()
     {
         return view('pages.privacy-policy');
+    }
+
+    public function showRegistrations()
+    {
+        $registrations=Registration::where('payment','complete')->get();
+        return view('pages.registrations',compact('registrations'));
+    }
+    public function register(Registration $id)
+    {
+        $id->status='registered';
+        $id->save();
+        return back();
+    }
+    public function unregister(Registration $id)
+    {
+        $id->status='complete';
+        $id->save();
+        return back();
     }
 }

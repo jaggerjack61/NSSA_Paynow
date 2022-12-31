@@ -25,6 +25,9 @@ Route::controller(MainController::class)->group(function(){
    Route::get('/settings','showSettings')->name('settings')->middleware('auth');
    Route::post('/settings','setSettings')->name('save-settings')->middleware('auth');
    Route::get('/reports','showReports')->name('reports')->middleware('auth');
+   Route::get('/registrations','showRegistrations')->name('registrations')->middleware('auth');
+    Route::get('/register/{id}','register')->name('register')->middleware('auth');
+    Route::get('/unregister/{id}','unregister')->name('unregister')->middleware('auth');
 });
 Route::controller(AuthController::class)->group(function(){
    Route::post('/','login')->name('login');

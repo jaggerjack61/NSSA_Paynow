@@ -115,7 +115,7 @@ class AdvancedWebhookController extends Controller
         elseif($client->status=='none' and $client->reg->terms_conditions=='rejected'){
             $this->sendMsgInteractive([
                 $this->company,
-                'Welcome Pilon Records Management Bureau NSSA registration bot. Pilon Records Management Bureau is a third party organization that is not affiliated with NSSA. To view our privacy policy visit https://recordsmanager.co.zw/policy. Do you accept our terms and conditions?',
+                'Welcome to Pilon Records Management Bureau NSSA registration bot. Pilon Records Management Bureau is a third party organization that is not affiliated with NSSA. To view our privacy policy visit https://recordsmanager.co.zw/policy. Do you accept our terms and conditions?',
                 'Get started'],
                 [['id'=>'accept','title'=>'Accept'], ['id'=>'no','title'=>'Reject']  ]);
 
@@ -158,7 +158,7 @@ class AdvancedWebhookController extends Controller
                     }
                     else{
                         $this->sendMsgInteractive([$this->company,'You are not registered with NSSA. Would you like us to register with NSSA for a fee of RTGS $'.$this->registrationAmount(),'Get started'],
-                            [['id'=>'register_name','title'=>'YES'], ['id'=>'no','title'=>'NO']  ]);
+                            [['id'=>'register_fname','title'=>'YES'], ['id'=>'no','title'=>'NO']  ]);
                         $client->status='none';
                         $client->save();
                     }
@@ -223,6 +223,157 @@ class AdvancedWebhookController extends Controller
             }
 
         }
+        elseif($client->status=='reg_ecocash'){
+            $pattern='/[0-9]{10}/i';
+            if(preg_match($pattern, $message)) {
+                $client->status='none';
+                $client->save();
+                $pay=new PaynowHelper();
+                $this->sendMsgText('Please wait');
+                $pay->makePaymentMobileReg($this->phone.'r','catchesystems263@gmail.com',$message,'ecocash');
+
+            }
+            else{
+                $this->sendMsgInteractive(['Bureau of Records','Please enter a valid Eco Cash number','Payment'],
+                    [['id'=>'no','title'=>'Cancel']]);
+
+            }
+
+        }
+        elseif($client->status=='reg_onewallet'){
+            $pattern='/[0-9]{10}/i';
+            if(preg_match($pattern, $message)) {
+                $client->status='none';
+                $client->save();
+                $pay=new PaynowHelper();
+                $this->sendMsgText('Please wait');
+                $pay->makePaymentMobileReg($this->phone.'r','catchesystems263@gmail.com',$message,'onewallet');
+
+            }
+            else{
+                $this->sendMsgInteractive(['Bureau of Records','Please enter a valid One Wallet number','Payment'],
+                    [['id'=>'no','title'=>'Cancel']]);
+            }
+
+        }
+        elseif($client->status=='reg_telecash'){
+            $pattern='/[0-9]{10}/i';
+            if(preg_match($pattern, $message)) {
+                $client->status='none';
+                $client->save();
+                $pay=new PaynowHelper();
+                $this->sendMsgText('Please wait');
+                $pay->makePaymentMobileReg($this->phone.'r','catchesystems263@gmail.com',$message,'telecash');
+
+            }
+            else{
+                $this->sendMsgInteractive(['Bureau of Records','Please enter a valid Telecash number','Payment'],
+                    [['id'=>'no','title'=>'Cancel']]);
+            }
+
+        }
+        elseif($client->status=='register_fname'){
+            $reg=Registration::where('phone',$this->phone)->first();
+            $reg->first_names=$message;
+            $reg->save();
+            $client->status='register_lname';
+            $client->save();
+            $this->sendMsgInteractive([$this->company,'Please enter your last name.','Registration 2/10'],
+                [['id'=>'no','title'=>'Cancel']  ]);
+
+        }
+        elseif($client->status=='register_lname'){
+            $reg=Registration::where('phone',$this->phone)->first();
+            $reg->last_name=$message;
+            $reg->save();
+            $client->status='register_dob';
+            $client->save();
+            $this->sendMsgInteractive([$this->company,'Please enter your date of birth in the format dd/mm/yyyy.','Registration 3/10'],
+                [['id'=>'no','title'=>'Cancel']  ]);
+
+        }
+        elseif($client->status=='register_dob'){
+            $reg=Registration::where('phone',$this->phone)->first();
+            $reg->dob=$message;
+            $reg->save();
+            $client->status='register_id';
+            $client->save();
+            $this->sendMsgInteractive([$this->company,'Please enter your date of ID number in the format 123456789A00','Registration 4/10'],
+                [['id'=>'no','title'=>'Cancel']  ]);
+
+        }
+        elseif($client->status=='register_id'){
+            $reg=Registration::where('phone',$this->phone)->first();
+            $reg->id_number=$message;
+            $reg->save();
+            $client->status='register_email';
+            $client->save();
+            $this->sendMsgInteractive([$this->company,'Please enter your email address.','Registration 5/10'],
+                [['id'=>'no','title'=>'Cancel']  ]);
+
+        }
+        elseif($client->status=='register_email'){
+            $reg=Registration::where('phone',$this->phone)->first();
+            $reg->email=$message;
+            $reg->save();
+            $client->status='register_company';
+            $client->save();
+            $this->sendMsgInteractive([$this->company,'Please enter the name of the last company you worked at or are currently working at.','Registration 6/10'],
+                [['id'=>'no','title'=>'Cancel']  ]);
+
+        }
+        elseif($client->status=='register_company'){
+            $reg=Registration::where('phone',$this->phone)->first();
+            $reg->company=$message;
+            $reg->save();
+            $client->status='register_position';
+            $client->save();
+            $this->sendMsgInteractive([$this->company,'Please enter the title of the position you held at this company.','Registration 7/10'],
+                [['id'=>'no','title'=>'Cancel']  ]);
+
+        }
+        elseif($client->status=='register_position'){
+            $reg=Registration::where('phone',$this->phone)->first();
+            $reg->occupation=$message;
+            $reg->save();
+            $client->status='register_salary';
+            $client->save();
+            $this->sendMsgInteractive([$this->company,'Please enter the salary you made and the currency eg $500 USD or $75000 RTGS.','Registration 8/10'],
+                [['id'=>'no','title'=>'Cancel']  ]);
+
+        }
+        elseif($client->status=='register_salary'){
+            $reg=Registration::where('phone',$this->phone)->first();
+            $reg->salary=$message;
+            $reg->save();
+            $client->status='register_start_date';
+            $client->save();
+            $this->sendMsgInteractive([$this->company,'Please enter the day you began employment at the company in the format dd/mm/yyyy.','Registration 9/10'],
+                [['id'=>'no','title'=>'Cancel']  ]);
+
+        }
+        elseif($client->status=='register_start_date'){
+            $reg=Registration::where('phone',$this->phone)->first();
+            $reg->start_date=$message;
+            $reg->save();
+            $client->status='register_end_date';
+            $client->save();
+            $this->sendMsgInteractive([$this->company,'Please enter the day you end employment at the company or press the currently employed button if you are still at this company.','Registration 10/10'],
+                [['id'=>'current','title'=>'Currently Employed'] ,['id'=>'no','title'=>'Cancel']  ]);
+
+        }
+        elseif($client->status=='register_end_date'){
+            $reg=Registration::where('phone',$this->phone)->first();
+            $reg->end_date=$message;
+            $reg->status='complete';
+            $reg->save();
+            $client->status='none';
+            $client->save();
+            $this->sendMsgInteractive([$this->company,'Please select a payment method from the list below and we will register you with NSSA for a fee of RTGS $'.$this->registrationAmount().' .','Payment'],
+                [['id'=>'reg_ecocash','title'=>'Ecocash'] ,['id'=>'reg_telecash','title'=>'Telecash'],['id'=>'reg_onewallet','title'=>'onewallet']  ]);
+
+        }
+
     }
 
     public function handleList($arr)
@@ -275,7 +426,42 @@ class AdvancedWebhookController extends Controller
         }
         elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='register') {
             $this->sendMsgInteractive([$this->company,'Would you like us to register you with NSSA for a fee of RTGS $'.$this->registrationAmount(),'Get started'],
-                [['id'=>'register_name','title'=>'YES'], ['id'=>'no','title'=>'NO']  ]);
+                [['id'=>'register_fname','title'=>'YES'], ['id'=>'no','title'=>'NO']  ]);
+        }
+        elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='register_fname') {
+            $client->status='register_fname';
+            $client->save();
+            $this->sendMsgInteractive([$this->company,'Please enter your first names.','Registration 1/10'],
+                [['id'=>'no','title'=>'Cancel']  ]);
+        }
+        elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='current') {
+            $reg=Registration::where('phone',$this->phone)->first();
+            $reg->end_date='NA/Currently Employed';
+            $reg->status='complete';
+            $reg->save();
+            $client->status='register_complete';
+            $client->save();
+            $this->sendMsgInteractive([$this->company,'Please select a payment method from the list below and we will register you with NSSA for a fee of RTGS $'.$this->registrationAmount().' .','Payment'],
+                [['id'=>'reg_ecocash','title'=>'Ecocash'] ,['id'=>'reg_telecash','title'=>'Telecash'],['id'=>'reg_onewallet','title'=>'onewallet']  ]);
+
+        }
+        elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='reg_ecocash'){
+            $client->status='reg_ecocash';
+            $client->save();
+            $this->sendMsgInteractive(['Bureau of Records','Please enter a valid Eco Cash number','Payment'],
+                [['id'=>'no','title'=>'Cancel']]);
+        }
+        elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='reg_onewallet'){
+            $client->status='reg_onewallet';
+            $client->save();
+            $this->sendMsgInteractive(['Bureau of Records','Please enter a valid One Wallet number','Payment'],
+                [['id'=>'no','title'=>'Cancel']]);
+        }
+        elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='reg_telecash'){
+            $client->status='reg_telecash';
+            $client->save();
+            $this->sendMsgInteractive(['Bureau of Records','Please enter a valid Telecash number','Payment'],
+                [['id'=>'no','title'=>'Cancel']]);
         }
     }
 

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('first_names')->nullable();
             $table->string('last_name')->nullable();
             $table->string('dob')->nullable();
+            $table->string('id_number')->nullable();
             $table->string('email')->nullable();
             $table->string('start_date')->nullable();
             $table->string('company')->nullable();

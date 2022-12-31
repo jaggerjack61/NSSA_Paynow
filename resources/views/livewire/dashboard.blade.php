@@ -19,8 +19,15 @@
                 <td>{{$payment->unique_id}}</td>
                 <td>{{$payment->status}}</td>
                 <td>{{$payment->amount}}</td>
-                <td>{{$payment->details->firstname.' '.$payment->details->lastname}}</td>
-                <td>{{$payment->details->ssn}}</td>
+                @if($payment->details_id=='reg')
+                    <td>Registration</td>
+                    <td>Registration</td>
+                @else
+                    <td>{{$payment->details->firstname.' '.$payment->details->lastname}}</td>
+                    <td>{{$payment->details->ssn}}</td>
+                @endif
+
+
             </tr>
         @endforeach
         </tbody>
