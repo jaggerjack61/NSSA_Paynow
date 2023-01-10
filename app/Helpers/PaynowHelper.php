@@ -6,10 +6,10 @@ use Paynow\Payments\Paynow;
 
 
 class PaynowHelper{
-    public $id = '15562';
-    public $key = 'ff0ea85d-68ba-4bf2-88b8-16171c3cd747';
-    public $returnUrl = 'https://416f-77-246-53-183.ngrok.io/api/paynow/return';
-    public  $resultUrl = 'https://416f-77-246-53-183.ngrok.io/api/paynow/result';
+    public $id = '15485';
+    public $key = 'df033924-f9bb-4056-bc77-934657ee2ab1';
+    public $returnUrl = 'https://1dff-155-94-217-80.ngrok.io/api/paynow/return';
+    public  $resultUrl = 'https://1dff-155-94-217-80.ngrok.io/api/paynow/result';
     public $fee;
 
     public function __construct()

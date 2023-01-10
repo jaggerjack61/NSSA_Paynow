@@ -115,7 +115,7 @@ class AdvancedWebhookController extends Controller
         elseif($client->status=='none' and $client->reg->terms_conditions=='rejected'){
             $this->sendMsgInteractive([
                 $this->company,
-                'Welcome to Pilon Records Management Bureau NSSA registration bot. Pilon Records Management Bureau is a third party organization that is not affiliated with NSSA. To view our privacy policy visit https://recordsmanager.co.zw/policy. Do you accept our terms and conditions?',
+                'Welcome to Pilon Records Management Bureau NSSA registration bot. Pilon Records Management Bureau is a third party organization assisting with NSSA registration only. To view our privacy policy visit https://recordsmanager.co.zw/policy. Do you accept our terms and conditions?',
                 'Get started'],
                 [['id'=>'accept','title'=>'Accept'], ['id'=>'no','title'=>'Reject']  ]);
 
@@ -149,8 +149,8 @@ class AdvancedWebhookController extends Controller
                         $req->save();
                         $pattern='/[0-9]{7}[A-Z]{1}/i';
                         if(preg_match($pattern, $details->ssn)){
-                            $this->sendMsgInteractive(['SSN Look Up','Hie '.$details->firstname.' '.$details->lastname.' we found your SSN please select a payment method','Select Payment'],
-                                [['id'=>'ecocash','title'=>'Eco Cash'], ['id'=>'onemoney','title'=>'One Money'], ['id'=>'telecash','title'=>'Telecash']  ]);
+                            $this->sendMsgInteractive([$this->company,'Congratulations!! '.$details->firstname.' '.$details->lastname.' you are registered with NSSA. To view your SSN ( Social Security Number ) for a fee of RTGS:$'.$this->transactionAmount().' select one of the payment methods below. Type anything to cancel and return home.','Select Payment'],
+                                [['id'=>'ecocash','title'=>'Eco Cash'], ['id'=>'onewallet','title'=>'One Wallet'], ['id'=>'telecash','title'=>'Telecash']  ]);
                             //$this->sendMsgText($ssnNo[2]);
                             $client->status='none';
                             $client->save();
@@ -298,7 +298,7 @@ class AdvancedWebhookController extends Controller
             $reg->save();
             $client->status='register_id';
             $client->save();
-            $this->sendMsgInteractive([$this->company,'Please enter your date of ID number in the format 123456789A00','Registration 4/10'],
+            $this->sendMsgInteractive([$this->company,'Please enter your ID number in the format 123456789A00','Registration 4/10'],
                 [['id'=>'no','title'=>'Cancel']  ]);
 
         }
@@ -397,7 +397,7 @@ class AdvancedWebhookController extends Controller
         elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='no'){
             $client->status='none';
             $client->save();
-            $this->sendMsgText('Understandable have a nice day.');
+            $this->sendMsgText('Have a nice day!');
         }
         elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='ecocash'){
             $client->status='ecocash';
