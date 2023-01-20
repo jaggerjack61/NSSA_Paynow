@@ -27,6 +27,9 @@
                         <a class="nav-link" href="{{route('reports')}}">Reports</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{route('show-messages')}}">Contact Us Messages</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{route('settings')}}">Settings</a>
                     </li>
                     <li class="nav-item">
@@ -37,6 +40,23 @@
             </div>
         </div>
     </nav>
+    @if(session()->has('error'))
+
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            {{ session()->get('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">X</button>
+        </div>
+
+
+    @elseif(session()->has('success'))
+
+
+        <div class="alert alert-success alert-dismissible" role="alert">
+            {{ session()->get('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">X</button>
+        </div>
+
+    @endif
         @yield('content')
 
         <script src="assets/vendors/jquery/jquery-3.4.1.js"></script>

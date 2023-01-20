@@ -18,10 +18,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(MainController::class)->group(function(){
    Route::get('/','index')->name('home');
+   Route::get('whatsapp','showWhatsapp')->name('whatsapp');
+    Route::post('/save','saveMessage')->name('save-messages');
    Route::get('/SSN','getSSN');
    Route::get('/test','test');
    Route::get('/policy','showPolicy');
    Route::get('/dashboard','dashboard')->name('dashboard')->middleware('auth');
+    Route::get('/messages','showMessages')->name('show-messages')->middleware('auth');
+    Route::get('/attended/{id}','attend')->name('attended')->middleware('auth');
    Route::get('/settings','showSettings')->name('settings')->middleware('auth');
    Route::post('/settings','setSettings')->name('save-settings')->middleware('auth');
    Route::get('/reports','showReports')->name('reports')->middleware('auth');

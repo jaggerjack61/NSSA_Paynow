@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\PaynowHelper;
 use App\Models\Detail;
 use App\Models\Registration;
+use App\Models\SiteMessage;
 use App\Models\WhatsappSetting;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -12,7 +13,13 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class MainController extends Controller
 {
-    public function index(PaynowHelper $pay)
+    public function index()
+    {
+        return view('index');
+        // $pay->makePaymentMobile('unique','jarai.samuel@gmail.com',[['SSN Request',1]]);
+        // return view('pages.home');
+    }
+    public function showWhatsapp()
     {
         return view('welcome');
         // $pay->makePaymentMobile('unique','jarai.samuel@gmail.com',[['SSN Request',1]]);
@@ -111,7 +118,7 @@ class MainController extends Controller
 
     public function showRegistrations()
     {
-        $registrations=Registration::where('payment','complete')->get();
+        $registrations=Registration::where('payment','complete')->paginate(30);
         return view('pages.registrations',compact('registrations'));
     }
     public function register(Registration $id)
@@ -126,4 +133,36 @@ class MainController extends Controller
         $id->save();
         return back();
     }
+
+    public function saveMessage(Request $request)
+    {
+        try{
+            $data=$request->validate([
+                'message' =>'required',
+                'name'=>'required',
+                'email'=>'required'
+            ]);
+            SiteMessage::create($data);
+            return back()->with('success','it worked');
+        }
+        catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+    }
+
+    public function showMessages()
+    {
+        $messages=SiteMessage::paginate(30);
+        return view('pages.messages',compact('messages'));
+    }
+    public function attend(SiteMessage $id)
+    {
+        $id->status='attended';
+        $id->save();
+        return back()->with('success',$id->name.' has been attended.');
+    }
+
+
+
 }
