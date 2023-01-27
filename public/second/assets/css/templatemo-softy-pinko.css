@@ -22,16 +22,16 @@ Table of contents
 12. preloader
 
 --------------------------------------------- */
-/* 
+/*
 ---------------------------------------------
 font & reset css
---------------------------------------------- 
+---------------------------------------------
 */
 @import url("https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,700,900");
-/* 
+/*
 ---------------------------------------------
 reset
---------------------------------------------- 
+---------------------------------------------
 */
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, div
 pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q,
@@ -101,10 +101,10 @@ ul {
   margin-bottom: 0px;
 }
 
-/* 
+/*
 ---------------------------------------------
 global styles
---------------------------------------------- 
+---------------------------------------------
 */
 html,
 body {
@@ -113,12 +113,12 @@ body {
 }
 
 ::selection {
-  background: #ff589e;
+  background: lightgreen;
   color: #fff;
 }
 
 ::-moz-selection {
-  background: #ff589e;
+  background: lightgreen;
   color: #fff;
 }
 
@@ -314,7 +314,7 @@ a.main-button-slider {
   font-size: 13px;
   border-radius: 20px;
   padding: 12px 20px;
-  background-color: #ff589e;
+  background-color: lightgreen;
   text-transform: uppercase;
   color: #fff;
   letter-spacing: 0.25px;
@@ -325,14 +325,14 @@ a.main-button-slider {
 }
 
 a.main-button-slider:hover {
-  background-color: #8261ee;
+  background-color: blue;
 }
 
 a.main-button {
   font-size: 13px;
   border-radius: 20px;
   padding: 12px 20px;
-  background-color: #8261ee;
+  background-color: blue;
   text-transform: uppercase;
   color: #fff;
   letter-spacing: 0.25px;
@@ -343,7 +343,7 @@ a.main-button {
 }
 
 a.main-button:hover {
-  background-color: #ff589e;
+  background-color: lightgreen;
 }
 
 button.main-button {
@@ -353,7 +353,7 @@ button.main-button {
   font-size: 13px;
   border-radius: 20px;
   padding: 12px 20px;
-  background-color: #8261ee;
+  background-color: blue;
   text-transform: uppercase;
   color: #fff;
   letter-spacing: 0.25px;
@@ -364,14 +364,14 @@ button.main-button {
 }
 
 button.main-button:hover {
-  background-color: #ff589e;
+  background-color: lightgreen;
 }
 
 
-/* 
+/*
 ---------------------------------------------
 header
---------------------------------------------- 
+---------------------------------------------
 */
 .header-area {
   position: fixed;
@@ -448,7 +448,7 @@ header
 }
 
 .header-area .main-nav .nav li a:hover {
-  color: #ff589e;
+  color: lightgreen;
 }
 
 .header-area .main-nav .menu-trigger {
@@ -560,7 +560,7 @@ header
 }
 
 .header-area.header-sticky .nav li a.active {
-  color: #ff589e;
+  color: lightgreen;
 }
 
 @media (max-width: 1200px) {
@@ -633,10 +633,10 @@ header
   }
 }
 
-/* 
+/*
 ---------------------------------------------
 welcome
---------------------------------------------- 
+---------------------------------------------
 */
 .welcome-area {
   overflow: hidden;
@@ -644,10 +644,10 @@ welcome
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url(../images/banner-bg.png);
+  background-image: url(../images/bg.webp);
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover; 
+  background-size: cover;
   height: 100vh;
 }
 
@@ -745,10 +745,10 @@ welcome
 }
 
 
-/* 
+/*
 ---------------------------------------------
 features
---------------------------------------------- 
+---------------------------------------------
 */
 .features-small-item {
   cursor: pointer;
@@ -769,7 +769,7 @@ features
 }
 
 .features-small-item:hover .icon {
-  background-color: #ff589e;
+  background-color: lightgreen;
 }
 
 .features-small-item .icon {
@@ -783,7 +783,7 @@ features
   margin: auto;
   position: relative;
   margin-bottom: 30px;
-  background: #8261ee;
+  background: blue;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
@@ -835,10 +835,10 @@ features
   }
 }
 
-/* 
+/*
 ---------------------------------------------
 parallax & home seperator
---------------------------------------------- 
+---------------------------------------------
 */
 .mini {
   min-height: 215px;
@@ -857,7 +857,7 @@ parallax & home seperator
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  background-image: url(../images/work-process-bg.png);
+  background-image: url(../images/value.jpg);
   z-index: 2;
   top: -20%;
   left: -20%;
@@ -1105,10 +1105,10 @@ parallax & home seperator
   }
 }
 
-/* 
+/*
 ---------------------------------------------
 team
---------------------------------------------- 
+---------------------------------------------
 */
 .team-item {
   background: #fff;
@@ -1175,7 +1175,7 @@ team
   display: block;
   font-weight: 400;
   font-size: 15px;
-  color: #ff589e;
+  color: lightgreen;
   letter-spacing: 0.25px;
 }
 
@@ -1191,10 +1191,10 @@ team
   line-height: 26px;
 }
 
-/* 
+/*
 ---------------------------------------------
 pricing
---------------------------------------------- 
+---------------------------------------------
 */
 .pricing-item {
   background: #FFFFFF;
@@ -1214,7 +1214,7 @@ pricing
 }
 
 .pricing-item.active .pricing-body .price-wrapper {
-  background-color: #ff589e;
+  background-color: lightgreen;
 }
 
 .pricing-item.active .pricing-body .price-wrapper .currency {
@@ -1257,7 +1257,7 @@ pricing
   text-align: center;
   padding-top: 20px;
   padding-bottom: 13px;
-  background: #8261ee;
+  background: blue;
   width: 80%;
   margin: auto;
   margin-bottom: 40px;
@@ -1308,10 +1308,10 @@ pricing
   margin-top: 50px;
 }
 
-/* 
+/*
 ---------------------------------------------
 blog
---------------------------------------------- 
+---------------------------------------------
 */
 .blog-post-thumb {
   text-align: center;
@@ -1351,7 +1351,7 @@ blog
 }
 
 .blog-post-thumb h3 a:hover {
-  color: #ff589e;
+  color: lightgreen;
 }
 
 .blog-post-thumb .text {
@@ -1383,10 +1383,10 @@ blog
 }
 
 
-/* 
+/*
 ---------------------------------------------
 contact
---------------------------------------------- 
+---------------------------------------------
 */
 
 #contact-us {
@@ -1436,13 +1436,13 @@ contact
   padding: 20px;
 }
 
-/* 
+/*
 ---------------------------------------------
 footer
---------------------------------------------- 
+---------------------------------------------
 */
 footer {
-  background-image: linear-gradient(127deg, #a759d1 0%, #8261ee 91%);
+  background-image: linear-gradient(127deg, lightblue 0%, blue 91%);
   padding-top: 30px;
 }
 
@@ -1458,7 +1458,7 @@ footer .social li {
 }
 
 footer .social li a {
-  color: #9d5bd9;
+  color: lightblue;
    text-align: center;
   background-color: #fff;
   width: 36px;
@@ -1474,7 +1474,7 @@ footer .social li a {
 }
 
 footer .social li a:hover {
-  background-color: #ff589e;
+  background-color: lightgreen;
   color: #fff;
 }
 
@@ -1503,14 +1503,14 @@ footer .copyright {
   }
 }
 
-/* 
+/*
 ---------------------------------------------
 preloader
---------------------------------------------- 
+---------------------------------------------
 */
 #preloader {
   overflow: hidden;
-  background-image: linear-gradient(135deg, #a759d1 0%, #8261ee 100%);
+  background-image: linear-gradient(135deg, lightblue 0%, blue 100%);
   left: 0;
   right: 0;
   top: 0;

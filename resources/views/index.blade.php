@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,700,900" rel="stylesheet">
 
-    <title>Softy Pinko - Bootstrap 4.0 Theme</title>
+    <title>Pilon Records Management Bureau</title>
     <!--
     SOFTY PINKO
     https://templatemo.com/tm-535-softy-pinko
@@ -45,7 +45,7 @@
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
                     <a href="#" class="logo m-3">
-                        <img src="second/assets/images/pilon.jpg" width="68px" alt="Softy Pinko"/>
+                        <img src="second/assets/images/pilon.png" width="68px" alt="Softy Pinko"/>
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
@@ -90,9 +90,9 @@
     <div class="header-text">
         <div class="container">
             <div class="row">
-                <div class="offset-xl-3 col-xl-6 offset-lg-2 col-lg-8 col-md-12 col-sm-12">
-                    <h1>Our Vision</h1>
-                    <h4 class="text-white p-2 m-2">To be the first choice data and records management service provider in Zimbabwe and beyond in this 4th industrial revolution era.</h4>
+                <div class="offset-xl-3 col-xl-6 offset-lg-2 col-lg-8 col-md-12 col-sm-12 bg-white p-3 features-small-item">
+                    <h1 class="text-primary">Our Vision</h1>
+                    <h4 class="text-secondary p-2 m-2">To be the first choice data and records management service provider in Zimbabwe and beyond in this 4th industrial revolution era.</h4>
                     <a href="#features" class="main-button-slider">Discover More</a>
                 </div>
             </div>
