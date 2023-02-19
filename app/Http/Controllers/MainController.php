@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\PaynowHelper;
+use App\Models\Card;
 use App\Models\Detail;
 use App\Models\Registration;
 use App\Models\SiteMessage;
@@ -101,6 +102,7 @@ class MainController extends Controller
      $settings=WhatsappSetting::first();
      $settings->amount_check=$request->amount_check;
      $settings->amount_register=$request->amount_register;
+     $settings->amount_card=$request->amount_card;
      $settings->save();
      return back();
     }
@@ -162,6 +164,19 @@ class MainController extends Controller
         $id->save();
         return back()->with('success',$id->name.' has been attended.');
     }
+
+    public function showCards()
+    {
+        $cards=Card::paginate(30);
+        return view('pages.cards',compact('cards'));
+    }
+    public function finish(Card $id)
+    {
+        $id->status='finished';
+        $id->save();
+        return back()->with('success','This card has been marked as completed.');
+    }
+
 
 
 

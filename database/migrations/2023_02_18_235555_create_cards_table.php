@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('whatsapp_settings', function (Blueprint $table) {
+        Schema::create('cards', function (Blueprint $table) {
             $table->id();
-            $table->string('token');
-            $table->string('phoneId');
-            $table->float('amount_check')->default(1);
-            $table->float('amount_register')->default(1);
-            $table->float('amount_card')->default(1);
+            $table->string('phone');
+            $table->string('SSN');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('whatsapp_settings');
+        Schema::dropIfExists('cards');
     }
 };

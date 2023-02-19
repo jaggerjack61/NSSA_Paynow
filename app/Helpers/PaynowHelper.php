@@ -8,14 +8,15 @@ use Paynow\Payments\Paynow;
 class PaynowHelper{
     public $id = '15485';
     public $key = 'df033924-f9bb-4056-bc77-934657ee2ab1';
-    public $returnUrl = 'https://1dff-155-94-217-80.ngrok.io/api/paynow/return';
-    public  $resultUrl = 'https://1dff-155-94-217-80.ngrok.io/api/paynow/result';
+    public $returnUrl = 'https://c506-104-223-93-213.ngrok.io/paynow/return';
+    public  $resultUrl = 'https://c506-104-223-93-213.ngrok.io/api/paynow/result';
     public $fee;
 
     public function __construct()
     {
         $this->fee=WhatsappSetting::first()->amount_check;
         $this->reg_fee=WhatsappSetting::first()->amount_register;
+        $this->apply_fee = WhatsappSetting::first()->amount_card;
         $this->paynow = new Paynow($this->id,$this->key,$this->returnUrl,$this->resultUrl);
 
     }
@@ -86,7 +87,7 @@ class PaynowHelper{
     {
         $payment=$this->paynow->createPayment($paymentId,$email);
 
-        $payment->add('Look up details',$this->reg_fee);
+        $payment->add('NSSA Registration',$this->reg_fee);
 
         $response = $this->paynow->sendMobile($payment, $phone, $method);
 //        $fptr = fopen('response.txt', 'w');
@@ -145,6 +146,15 @@ class PaynowHelper{
 //        dd($response);
     }
 
+    public function makePaymentMobileApply($paymentId,$email,$phone,$method)
+    {
+        $payment=$this->paynow->createPayment($paymentId,$email);
+
+        $payment->add('Card Application',$this->apply_fee);
+
+        $response = $this->paynow->sendMobile($payment, $phone, $method);
+
+    }
 
 }
 

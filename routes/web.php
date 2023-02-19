@@ -26,6 +26,8 @@ Route::controller(MainController::class)->group(function(){
    Route::get('/dashboard','dashboard')->name('dashboard')->middleware('auth');
     Route::get('/messages','showMessages')->name('show-messages')->middleware('auth');
     Route::get('/attended/{id}','attend')->name('attended')->middleware('auth');
+    Route::get('/cards','showCards')->name('show-cards')->middleware('auth');
+    Route::get('/finish/{id}','finish')->name('finish')->middleware('auth');
    Route::get('/settings','showSettings')->name('settings')->middleware('auth');
    Route::post('/settings','setSettings')->name('save-settings')->middleware('auth');
    Route::get('/reports','showReports')->name('reports')->middleware('auth');
