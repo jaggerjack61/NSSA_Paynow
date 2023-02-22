@@ -41,7 +41,7 @@
                 <td><?php echo e($card->created_at->diffForHumans()); ?></td>
                 <td><?php echo e($card->status=="complete"?"Pending":"Completed"); ?></td>
                 <td><a href="<?php echo e(route('finish',[$card->id])); ?>" class="btn btn-primary">Mark as Completed</a>
-                    <a href="/clients/<?php echo e($card->phone); ?>/id.jpg" class="btn btn btn-secondary">View</a>
+                    <a href="/clients/<?php echo e($card->SSN); ?>/id.jpg" class="btn btn btn-secondary">View</a>
                     </td>
 
 

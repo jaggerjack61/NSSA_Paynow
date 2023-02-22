@@ -41,7 +41,7 @@
                 <td>{{$card->created_at->diffForHumans()}}</td>
                 <td>{{$card->status=="complete"?"Pending":"Completed"}}</td>
                 <td><a href="{{route('finish',[$card->id])}}" class="btn btn-primary">Mark as Completed</a>
-                    <a href="/clients/{{$card->phone}}/id.jpg" class="btn btn btn-secondary">View</a>
+                    <a href="/clients/{{$card->SSN}}/id.jpg" class="btn btn btn-secondary">View</a>
                     </td>
 
 

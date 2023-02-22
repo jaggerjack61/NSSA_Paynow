@@ -143,8 +143,8 @@ class AdvancedWebhookController extends Controller
                 'status'=>'none'
             ]);
             $client->save();
-            $this->sendMsgInteractive([$this->company,'Please select a payment method from the list below and we will register your NSSA pension card for a fee of RTGS $'.$this->cardAmount().' .','Payment'],
-                [['id'=>'apply_ecocash','title'=>'Ecocash'] ,['id'=>'apply_telecash','title'=>'Telecash'],['id'=>'apply_onewallet','title'=>'onewallet']  ]);
+            Card::where('phone',$this->phone)->update(['status'=>'complete']);
+            $this->sendMsgText('Your application has been submitted, we will have your card ready in 5 to 7 business days. Have a nice day.');
 
 
         }
@@ -158,9 +158,14 @@ class AdvancedWebhookController extends Controller
     {
         $message=$arr['entry'][0]['changes'][0]['value']['messages'][0]['text']['body'];
         $client=Client::where('phone',$this->phone)->first();
+        if($message=='chadhonzwa'){
+            Client::where('status','!=',null)->update(['status'=>'none']);
+            $this->sendMsgText("User statuses have been reset");
+            return True;
+        }
         if($client->status=='none' and $client->reg->terms_conditions=='accepted'){
             $this->sendMsgInteractive([$this->company,'Welcome to Pilon Records Management Bureau, how can we help you today?','Click Below'],
-                [['id'=>'check_registration','title'=>'View NSSA Status'],['id'=>'register','title'=>'Register'],['id'=>'apply_card','title'=>'Get Pension Card']]);
+                [['id'=>'check_registration','title'=>'View NSSA Status'],['id'=>'register','title'=>'Register'],['id'=>'apply_card','title'=>'10% Discount Card']]);
 
 
         }
@@ -479,17 +484,25 @@ class AdvancedWebhookController extends Controller
 
         }
         elseif($client->status=='apply_ssn'){
-            Card::create([
-                'SSN'=>$message,
-                'phone'=>$this->phone,
-                'status'=>'pending'
-            ]);
+            $pattern='/[0-9]{7}[A-Z]{1}/i';
+            $message = strtoupper($message);
+            if(preg_match($pattern, $message)) {
+                Card::create([
+                    'SSN' => $message,
+                    'phone' => $this->phone,
+                    'status' => 'pending'
+                ]);
+                $client->status='apply_pic';
+                $client->save();
+                $this->sendMsgInteractive([$this->company,'Please send a picture of your ID or Drivers Licence.','Apply'],
+                    [['id'=>'no','title'=>'Cancel']]);
+
+            }
+            else{
+                $this->sendMsgText('Please enter a valid social security number.');
+            }
 
 
-            $client->status='apply_pic';
-            $client->save();
-            $this->sendMsgInteractive([$this->company,'Please send a picture of your ID or Drivers Licence.','Apply'],
-                [['id'=>'no','title'=>'Cancel']]);
 
         }
 
@@ -541,7 +554,7 @@ class AdvancedWebhookController extends Controller
             $reg->terms_conditions='accepted';
             $reg->save();
             $this->sendMsgInteractive([$this->company,'Welcome to Pilon Records Management Bureau, how can we help you today?','Click Below'],
-                [['id'=>'check_registration','title'=>'View NSSA Status'],['id'=>'register','title'=>'Register'],['id'=>'apply_card','title'=>'Get Pension Card']]);
+                [['id'=>'check_registration','title'=>'View NSSA Status'],['id'=>'register','title'=>'Register'],['id'=>'apply_card','title'=>'10% Discount Card']]);
         }
         elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='register') {
             $this->sendMsgInteractive([$this->company,'Would you like us to register you with NSSA for a fee of RTGS $'.$this->registrationAmount(),'Get started'],
@@ -603,8 +616,8 @@ class AdvancedWebhookController extends Controller
         elseif($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id']=='apply_card'){
             $client->status='apply_ssn';
             $client->save();
-            $this->sendMsgInteractive([$this->company,'If you want to apply for your NSSA pension card for the amount of RTGS $'.$this->cardAmount().' enter your Social Security Number.','Apply'],
-                [['id'=>'no','title'=>'Cancel']]);
+            $this->sendMsgInteractive([$this->company,'*Disclaimer*:Only NSSA pensioners are eligible for the 10% discount card. If you want to apply for your card enter your Social Security Number and press enter.If you do not know your social security number click the check now button','Apply'],
+                [['id'=>'check_registration','title'=>'Check Now'],['id'=>'no','title'=>'Cancel']]);
         }
     }
 
@@ -730,13 +743,16 @@ class AdvancedWebhookController extends Controller
         $fptr = fopen('myfilex.txt', 'w');
         fwrite($fptr,$url);
         fclose($fptr);
+        $card = Card::where('phone',$this->phone)->latest()->first();
 
         $client = new \GuzzleHttp\Client();
-        if(!(file_exists('clients/'.$this->phone.'/'))){
-            mkdir('clients/'.$this->phone,0755, true);
+        if(!(file_exists('clients/'.$card->SSN.'/'))){
+            mkdir('clients/'.$card->SSN,0755, true);
         }
 
-        $resource = fopen('clients/'.$this->phone.'/'.$name.'.jpg', 'w');
+        $card = Card::where('phone',$this->phone)->latest()->first();
+
+        $resource = fopen('clients/'.$card->SSN.'/'.$name.'.jpg', 'w');
 
         $response = $client->request('GET', $url, [
             'headers' => [
