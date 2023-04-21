@@ -78,7 +78,7 @@ class PaynowWebhookController extends Controller
                 $reg=Card::where('phone',$txt)->latest()->first();
                 $reg->status='complete';
                 $reg->save();
-                $msg->sendMsgText2($txt, 'Your registration will take 3-5 business days, after which we will contact you and deliver your NSSA pension card. Have a nice day!');
+                $msg->sendMsgText2($txt, 'Your registration will take 3-5 business days, after which we will contact you. Have a nice day!');
 
 
             } elseif ($request['status'] == 'Sent') {

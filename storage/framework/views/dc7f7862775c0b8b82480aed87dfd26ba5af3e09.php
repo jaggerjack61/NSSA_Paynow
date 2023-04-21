@@ -24,7 +24,7 @@
                         <a class="nav-link" href="<?php echo e(route('registrations')); ?>">Registrations</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo e(route('show-cards')); ?>">Cards</a>
+                        <a class="nav-link" href="<?php echo e(route('show-cards')); ?>">Portal Registrations</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo e(route('reports')); ?>">Reports</a>

@@ -7,15 +7,15 @@
     <h6 class="section-secondary-title">Transaction Fee Amounts</h6>
         <p>Check SSN</p>
     <div class="form-group">
-        <input type="number" step="0.01" name="amount_check" class="form-control" id="exampleFormControlInput1" value="<?php echo e($settings->amount_check); ?>">
+        <input type="number" step="0.01" name="amount_check" class="form-control" id="exampleFormControlInput1" value="<?php echo e($settings->amount_check??0); ?>">
     </div>
         <p>Register</p>
     <div class="form-group">
-        <input type="number" step="0.01" name="amount_register" class="form-control" id="exampleFormControlInput1" value="<?php echo e($settings->amount_register); ?>">
+        <input type="number" step="0.01" name="amount_register" class="form-control" id="exampleFormControlInput1" value="<?php echo e($settings->amount_register??0); ?>">
     </div>
-        <p>Pension Card</p>
+        <p>Portal Registration</p>
         <div class="form-group">
-            <input type="number" step="0.01" name="amount_card" class="form-control" id="exampleFormControlInput1" value="<?php echo e($settings->amount_card); ?>">
+            <input type="number" step="0.01" name="amount_card" class="form-control" id="exampleFormControlInput1" value="<?php echo e($settings->amount_card??0); ?>">
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>

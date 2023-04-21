@@ -25,8 +25,10 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th>Name</th>
             <th>Phone</th>
-            <th>SSN</th>
+            <th>ID</th>
+            <th>Email</th>
             <th>Date</th>
             <th>Status</th>
             <th>Action</th>
@@ -36,12 +38,15 @@
         @foreach($cards as $card)
             @if($card->status != "pending")
             <tr>
+                <th>{{$card->name}}</th>
                 <td>{{$card->phone}}</td>
-                <td>{{$card->SSN}}</td>
+                <td>{{$card->id_number}}</td>
+                <th>{{$card->email}}</th>
                 <td>{{$card->created_at->diffForHumans()}}</td>
                 <td>{{$card->status=="complete"?"Pending":"Completed"}}</td>
-                <td><a href="{{route('finish',[$card->id])}}" class="btn btn-primary">Mark as Completed</a>
-                    <a href="/clients/{{$card->SSN}}/id.jpg" class="btn btn btn-secondary">View</a>
+                <td>@if($card->status != "finished")
+                    <a href="{{route('finish',[$card->id])}}" class="btn btn-primary">Mark as Completed</a>
+                    @endif
                     </td>
 
 

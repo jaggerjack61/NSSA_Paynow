@@ -24,8 +24,8 @@
                     <td>Registration</td>
                     <td>Registration</td>
                 <?php elseif($payment->details_id=='app'): ?>
-                    <td>Card Application</td>
-                    <td>Application</td>
+                    <td>Portal Registration</td>
+                    <td>Portal</td>
                 <?php else: ?>
                     <td><?php echo e($payment->details->firstname.' '.$payment->details->lastname); ?></td>
                     <td><?php echo e($payment->details->ssn); ?></td>

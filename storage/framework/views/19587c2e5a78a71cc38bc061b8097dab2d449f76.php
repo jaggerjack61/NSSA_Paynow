@@ -25,8 +25,10 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th>Name</th>
             <th>Phone</th>
-            <th>SSN</th>
+            <th>ID</th>
+            <th>Email</th>
             <th>Date</th>
             <th>Status</th>
             <th>Action</th>
@@ -36,12 +38,15 @@
         <?php $__currentLoopData = $cards; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $card): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <?php if($card->status != "pending"): ?>
             <tr>
+                <th><?php echo e($card->name); ?></th>
                 <td><?php echo e($card->phone); ?></td>
-                <td><?php echo e($card->SSN); ?></td>
+                <td><?php echo e($card->id_number); ?></td>
+                <th><?php echo e($card->email); ?></th>
                 <td><?php echo e($card->created_at->diffForHumans()); ?></td>
                 <td><?php echo e($card->status=="complete"?"Pending":"Completed"); ?></td>
-                <td><a href="<?php echo e(route('finish',[$card->id])); ?>" class="btn btn-primary">Mark as Completed</a>
-                    <a href="/clients/<?php echo e($card->SSN); ?>/id.jpg" class="btn btn btn-secondary">View</a>
+                <td><?php if($card->status != "finished"): ?>
+                    <a href="<?php echo e(route('finish',[$card->id])); ?>" class="btn btn-primary">Mark as Completed</a>
+                    <?php endif; ?>
                     </td>
 
 

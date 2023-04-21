@@ -24,7 +24,7 @@
                         <a class="nav-link" href="{{route('registrations')}}">Registrations</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('show-cards')}}">Cards</a>
+                        <a class="nav-link" href="{{route('show-cards')}}">Portal Registrations</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('reports')}}">Reports</a>

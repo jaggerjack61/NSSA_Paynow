@@ -24,8 +24,8 @@
                     <td>Registration</td>
                     <td>Registration</td>
                 @elseif($payment->details_id=='app')
-                    <td>Card Application</td>
-                    <td>Application</td>
+                    <td>Portal Registration</td>
+                    <td>Portal</td>
                 @else
                     <td>{{$payment->details->firstname.' '.$payment->details->lastname}}</td>
                     <td>{{$payment->details->ssn}}</td>

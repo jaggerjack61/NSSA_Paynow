@@ -8,8 +8,8 @@ use Paynow\Payments\Paynow;
 class PaynowHelper{
     public $id = '15485';
     public $key = 'df033924-f9bb-4056-bc77-934657ee2ab1';
-    public $returnUrl = 'https://c506-104-223-93-213.ngrok.io/paynow/return';
-    public  $resultUrl = 'https://c506-104-223-93-213.ngrok.io/api/paynow/result';
+    public $returnUrl = 'https://40bf-198-8-85-252.ngrok-free.app/paynow/return';
+    public  $resultUrl = 'https://40bf-198-8-85-252.ngrok-free.app/api/paynow/result';
     public $fee;
 
     public function __construct()

@@ -12,7 +12,7 @@ class Dashboard extends Component
 
     public function render()
     {
-        $payments=Payment::paginate(30);
+        $payments=Payment::orderBy('created_at', 'desc')->paginate(30);
         return view('livewire.dashboard',compact('payments'));
     }
 }

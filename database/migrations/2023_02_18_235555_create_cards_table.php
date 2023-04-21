@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
             $table->string('phone');
-            $table->string('SSN');
+            $table->string('name');
+            $table->string('id_number')->nullable();
+            $table->string('email')->nullable();
             $table->string('status');
             $table->timestamps();
         });
