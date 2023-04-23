@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('id_number')->nullable();
             $table->string('email')->nullable();
+            $table->string('employer_name')->nullable();
+            $table->string('employer_number')->nullable();
             $table->string('status');
             $table->timestamps();
         });

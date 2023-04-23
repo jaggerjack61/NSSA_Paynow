@@ -155,7 +155,7 @@ class MainController extends Controller
 
     public function showMessages()
     {
-        $messages=SiteMessage::paginate(30);
+        $messages=SiteMessage::orderBy('created_at', 'desc')->paginate(30);
         return view('pages.messages',compact('messages'));
     }
     public function attend(SiteMessage $id)
@@ -167,7 +167,7 @@ class MainController extends Controller
 
     public function showCards()
     {
-        $cards=Card::paginate(30);
+        $cards=Card::orderBy('created_at', 'desc')->paginate(30);
         return view('pages.cards',compact('cards'));
     }
     public function finish(Card $id)

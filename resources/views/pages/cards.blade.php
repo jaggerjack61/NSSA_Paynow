@@ -29,6 +29,8 @@
             <th>Phone</th>
             <th>ID</th>
             <th>Email</th>
+            <th>Employer</th>
+            <th>Employer Phone</th>
             <th>Date</th>
             <th>Status</th>
             <th>Action</th>
@@ -38,10 +40,12 @@
         @foreach($cards as $card)
             @if($card->status != "pending")
             <tr>
-                <th>{{$card->name}}</th>
+                <td>{{$card->name}}</td>
                 <td>{{$card->phone}}</td>
                 <td>{{$card->id_number}}</td>
-                <th>{{$card->email}}</th>
+                <td>{{$card->email}}</td>
+                <td>{{$card->employer_name}}</td>
+                <td>{{$card->employer_number}}</td>
                 <td>{{$card->created_at->diffForHumans()}}</td>
                 <td>{{$card->status=="complete"?"Pending":"Completed"}}</td>
                 <td>@if($card->status != "finished")

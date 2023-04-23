@@ -29,6 +29,8 @@
             <th>Phone</th>
             <th>ID</th>
             <th>Email</th>
+            <th>Employer</th>
+            <th>Employer Phone</th>
             <th>Date</th>
             <th>Status</th>
             <th>Action</th>
@@ -38,10 +40,12 @@
         <?php $__currentLoopData = $cards; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $card): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <?php if($card->status != "pending"): ?>
             <tr>
-                <th><?php echo e($card->name); ?></th>
+                <td><?php echo e($card->name); ?></td>
                 <td><?php echo e($card->phone); ?></td>
                 <td><?php echo e($card->id_number); ?></td>
-                <th><?php echo e($card->email); ?></th>
+                <td><?php echo e($card->email); ?></td>
+                <td><?php echo e($card->employer_name); ?></td>
+                <td><?php echo e($card->employer_number); ?></td>
                 <td><?php echo e($card->created_at->diffForHumans()); ?></td>
                 <td><?php echo e($card->status=="complete"?"Pending":"Completed"); ?></td>
                 <td><?php if($card->status != "finished"): ?>

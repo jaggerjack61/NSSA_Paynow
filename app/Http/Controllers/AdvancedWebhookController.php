@@ -459,10 +459,11 @@ class AdvancedWebhookController extends Controller
             if (preg_match($pattern, $message) or preg_match($pattern2, $message)) {
                 $card = Card::where('phone', $this->phone)->first();
                 $card->id_number = $message;
-                $card->save();                $client->status = 'apply_email';
+                $card->save();
+                $client->status = 'apply_email';
                 $client->save();
-                $this->sendMsgInteractive([$this->company, 'Please send your email address.', 'Apply'],
-                    [['id' => 'no', 'title' => 'Cancel']]);
+                $this->sendMsgInteractive([$this->company, 'Please send your email address. If you do not have one we can create one for you.', 'Apply'],
+                    [['id' => 'no_email', 'title' => 'Create for me'],['id' => 'no', 'title' => 'Cancel']]);
 
             } else {
                 $this->sendMsgInteractive([$this->company, 'Please enter a valid ID number.', 'Apply'],
@@ -473,6 +474,31 @@ class AdvancedWebhookController extends Controller
 
             $card = Card::where('phone', $this->phone)->first();
             $card->email = $message;
+            $card->save();
+            $client->status = 'apply_employer';
+            $client->save();
+            $this->sendMsgInteractive([$this->company, 'Please enter the name of your current or last employer.', 'Apply'],
+                [['id' => 'no', 'title' => 'Cancel']]);
+
+
+        }
+        elseif ($client->status == 'apply_employer') {
+
+            $card = Card::where('phone', $this->phone)->first();
+            $card->employer_name = $message;
+            $card->save();
+            $client->status = 'apply_employer_number';
+            $client->save();
+            $this->sendMsgInteractive([$this->company, 'Please enter the phone number of your current or last employer.', 'Apply'],
+                [['id' => 'no', 'title' => 'Cancel']]);
+
+
+        }
+
+        elseif ($client->status == 'apply_employer_number') {
+
+            $card = Card::where('phone', $this->phone)->first();
+            $card->employer_number = $message;
             $card->save();
             $client->status = 'none';
             $client->save();
@@ -505,6 +531,14 @@ class AdvancedWebhookController extends Controller
             $client->status = 'none';
             $client->save();
             $this->sendMsgText('Have a nice day!');
+        } elseif ($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id'] == 'no_email') {
+            $client->status = 'apply_employer';
+            $client->save();
+            $card = Card::where('phone',$this->phone)->first();
+            $card->email = 'NO EMAIL/CREATE';
+            $card->save();
+            $this->sendMsgInteractive([$this->company, 'Please enter the name of your current or last employer.', 'Apply'],
+                [['id' => 'no', 'title' => 'Cancel']]);
         } elseif ($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id'] == 'ecocash') {
             $client->status = 'ecocash';
             $client->save();
