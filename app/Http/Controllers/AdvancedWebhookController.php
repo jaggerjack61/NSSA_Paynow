@@ -14,13 +14,12 @@ use Illuminate\Http\Request;
 class AdvancedWebhookController extends Controller
 {
     public $phone;
-    public $company = 'PRMB';
-    public $pay;
+    public $company = 'TestPRMB';
     public $settings;
 
     public function __construct()
     {
-        $this->pay = new PaynowHelper();
+
         $this->settings = WhatsappSetting::first();
     }
 
@@ -50,23 +49,7 @@ class AdvancedWebhookController extends Controller
         return $this->settings->phoneId;
     }
 
-    public function transactionAmount(): float
-    {
 
-        return $this->settings->amount_check;
-    }
-
-    public function registrationAmount(): float
-    {
-
-        return $this->settings->amount_register;
-    }
-
-    public function cardAmount(): float
-    {
-
-        return $this->settings->amount_card;
-    }
 
 
     public function webhookReceiver(Request $request)
@@ -175,9 +158,8 @@ class AdvancedWebhookController extends Controller
                     $req->phone = $this->phone;
                     $req->details_id = $details->id;
                     $req->save();
-                    $this->sendMsgInteractive([$this->company, 'Congratulations!! ' . $details->firstname . ' ' . $details->lastname . ' you are registered with NSSA. To view your SSN ( Social Security Number ) for a fee of RTGS:$' . $this->transactionAmount() . ' select one of the payment methods below. Type anything to cancel and return home.', 'Select Payment'],
-                        [['id' => 'ecocash', 'title' => 'Eco Cash'], ['id' => 'onewallet', 'title' => 'One Wallet'], ['id' => 'telecash', 'title' => 'Telecash']]);
-                    //$this->sendMsgText($ssnNo[2]);
+                    $this->sendMsgText('Congratulations!! ' . $details->firstname . ' ' . $details->lastname . ' you are registered with NSSA. Your SSN is ' .$details->ssn);
+
                     $client->status = 'none';
                     $client->save();
                 } else {
@@ -192,14 +174,12 @@ class AdvancedWebhookController extends Controller
                         $req->save();
                         $pattern = '/[0-9]{7}[A-Z]{1}/i';
                         if (preg_match($pattern, $details->ssn)) {
-                            $this->sendMsgInteractive([$this->company, 'Congratulations!! ' . $details->firstname . ' ' . $details->lastname . ' you are registered with NSSA. To view your SSN ( Social Security Number ) for a fee of RTGS:$' . $this->transactionAmount() . ' select one of the payment methods below. Type anything to cancel and return home.', 'Select Payment'],
-                                [['id' => 'ecocash', 'title' => 'Eco Cash'], ['id' => 'onewallet', 'title' => 'One Wallet'], ['id' => 'telecash', 'title' => 'Telecash']]);
-                            //$this->sendMsgText($ssnNo[2]);
+                            $this->sendMsgText('Congratulations!! ' . $details->firstname . ' ' . $details->lastname . ' you are registered with NSSA. Your SSN is ' .$details->ssn);
                             $client->status = 'none';
                             $client->save();
                         }
                     } else {
-                        $this->sendMsgInteractive([$this->company, 'You are not registered with NSSA. Would you like us to register with NSSA for a fee of RTGS $' . $this->registrationAmount(), 'Get started'],
+                        $this->sendMsgInteractive([$this->company, 'You are not registered with NSSA. Would you like us to register with NSSA for a fee of RTGS $', 'Get started'],
                             [['id' => 'register_fname', 'title' => 'YES'], ['id' => 'no', 'title' => 'NO']]);
                         $client->status = 'none';
                         $client->save();
@@ -213,136 +193,7 @@ class AdvancedWebhookController extends Controller
                     [['id' => 'no', 'title' => 'Cancel']]);
             }
 
-        } elseif ($client->status == 'ecocash') {
-            $pattern = '/[0-9]{10}/i';
-            if (preg_match($pattern, $message)) {
-                $client->status = 'none';
-                $client->save();
-                $pay = new PaynowHelper();
-                $this->sendMsgText('Please wait');
-                $pay->makePaymentMobile($this->phone, 'catchesystems263@gmail.com', $message, 'ecocash');
-
-            } else {
-                $this->sendMsgInteractive([$this->company, 'Please enter a valid Eco Cash number', 'Payment'],
-                    [['id' => 'no', 'title' => 'Cancel']]);
-
-            }
-
-        } elseif ($client->status == 'onewallet') {
-            $pattern = '/[0-9]{10}/i';
-            if (preg_match($pattern, $message)) {
-                $client->status = 'none';
-                $client->save();
-                $pay = new PaynowHelper();
-                $this->sendMsgText('Please wait');
-                $pay->makePaymentMobile($this->phone, 'catchesystems263@gmail.com', $message, 'onewallet');
-
-            } else {
-                $this->sendMsgInteractive([$this->company, 'Please enter a valid One Wallet number', 'Payment'],
-                    [['id' => 'no', 'title' => 'Cancel']]);
-            }
-
-        } elseif ($client->status == 'telecash') {
-            $pattern = '/[0-9]{10}/i';
-            if (preg_match($pattern, $message)) {
-                $client->status = 'none';
-                $client->save();
-                $pay = new PaynowHelper();
-                $this->sendMsgText('Please wait');
-                $pay->makePaymentMobile($this->phone, 'catchesystems263@gmail.com', $message, 'telecash');
-
-            } else {
-                $this->sendMsgInteractive([$this->company, 'Please enter a valid Telecash number', 'Payment'],
-                    [['id' => 'no', 'title' => 'Cancel']]);
-            }
-
-        } elseif ($client->status == 'reg_ecocash') {
-            $pattern = '/[0-9]{10}/i';
-            if (preg_match($pattern, $message)) {
-                $client->status = 'none';
-                $client->save();
-                $pay = new PaynowHelper();
-                $this->sendMsgText('Please wait');
-                $pay->makePaymentMobileReg($this->phone . 'r', 'catchesystems263@gmail.com', $message, 'ecocash');
-
-            } else {
-                $this->sendMsgInteractive([$this->company, 'Please enter a valid Eco Cash number', 'Payment'],
-                    [['id' => 'no', 'title' => 'Cancel']]);
-
-            }
-
-        } elseif ($client->status == 'reg_onewallet') {
-            $pattern = '/[0-9]{10}/i';
-            if (preg_match($pattern, $message)) {
-                $client->status = 'none';
-                $client->save();
-                $pay = new PaynowHelper();
-                $this->sendMsgText('Please wait');
-                $pay->makePaymentMobileReg($this->phone . 'r', 'catchesystems263@gmail.com', $message, 'onewallet');
-
-            } else {
-                $this->sendMsgInteractive([$this->company, 'Please enter a valid One Wallet number', 'Payment'],
-                    [['id' => 'no', 'title' => 'Cancel']]);
-            }
-
-        } elseif ($client->status == 'reg_telecash') {
-            $pattern = '/[0-9]{10}/i';
-            if (preg_match($pattern, $message)) {
-                $client->status = 'none';
-                $client->save();
-                $pay = new PaynowHelper();
-                $this->sendMsgText('Please wait');
-                $pay->makePaymentMobileReg($this->phone . 'r', 'catchesystems263@gmail.com', $message, 'telecash');
-
-            } else {
-                $this->sendMsgInteractive([$this->company, 'Please enter a valid Telecash number', 'Payment'],
-                    [['id' => 'no', 'title' => 'Cancel']]);
-            }
-
-        } elseif ($client->status == 'apply_ecocash') {
-            $pattern = '/[0-9]{10}/i';
-            if (preg_match($pattern, $message)) {
-                $client->status = 'none';
-                $client->save();
-                $pay = new PaynowHelper();
-                $this->sendMsgText('Please wait');
-                $pay->makePaymentMobileApply($this->phone . 'c', 'catchesystems263@gmail.com', $message, 'ecocash');
-
-            } else {
-                $this->sendMsgInteractive([$this->company, 'Please enter a valid Eco Cash number', 'Payment'],
-                    [['id' => 'no', 'title' => 'Cancel']]);
-
-            }
-
-        } elseif ($client->status == 'apply_onewallet') {
-            $pattern = '/[0-9]{10}/i';
-            if (preg_match($pattern, $message)) {
-                $client->status = 'none';
-                $client->save();
-                $pay = new PaynowHelper();
-                $this->sendMsgText('Please wait');
-                $pay->makePaymentMobileApply($this->phone . 'c', 'catchesystems263@gmail.com', $message, 'onewallet');
-
-            } else {
-                $this->sendMsgInteractive([$this->company, 'Please enter a valid One Wallet number', 'Payment'],
-                    [['id' => 'no', 'title' => 'Cancel']]);
-            }
-
-        } elseif ($client->status == 'apply_telecash') {
-            $pattern = '/[0-9]{10}/i';
-            if (preg_match($pattern, $message)) {
-                $client->status = 'none';
-                $client->save();
-                $pay = new PaynowHelper();
-                $this->sendMsgText('Please wait');
-                $pay->makePaymentMobileApply($this->phone . 'c', 'catchesystems263@gmail.com', $message, 'telecash');
-
-            } else {
-                $this->sendMsgInteractive([$this->company, 'Please enter a valid Telecash number', 'Payment'],
-                    [['id' => 'no', 'title' => 'Cancel']]);
-            }
-
-        } elseif ($client->status == 'register_fname') {
+        }  elseif ($client->status == 'register_fname') {
             $reg = Registration::where('phone', $this->phone)->first();
             $reg->first_names = $message;
             $reg->save();
@@ -430,9 +281,7 @@ class AdvancedWebhookController extends Controller
             $reg->save();
             $client->status = 'none';
             $client->save();
-            $this->sendMsgInteractive([$this->company, 'Please select a payment method from the list below and we will register you with NSSA for a fee of RTGS $' . $this->registrationAmount() . ' .', 'Payment'],
-                [['id' => 'reg_ecocash', 'title' => 'Ecocash'], ['id' => 'reg_telecash', 'title' => 'Telecash'], ['id' => 'reg_onewallet', 'title' => 'onewallet']]);
-
+            $this->sendMsgText("Your registration details have been submitted successfully. We will contact you in 2 to 5 business days.");
         } elseif ($client->status == 'apply_ssn') {
 
             $card = Card::where('phone', $this->phone)->first();
@@ -440,17 +289,19 @@ class AdvancedWebhookController extends Controller
                 $card->name = $message;
                 $card->phone = $this->phone;
                 $card->status = 'pending';
+                $card->save();
             } else {
                 Card::create([
                     'name' => $message,
                     'phone' => $this->phone,
                     'status' => 'pending'
                 ]);
+            }
                 $client->status = 'apply_id';
                 $client->save();
                 $this->sendMsgInteractive([$this->company, 'Please send your id number in the form 123456789A10.', 'Apply'],
                     [['id' => 'no', 'title' => 'Cancel']]);
-            }
+
 
         } elseif ($client->status == 'apply_id') {
             $message = str_replace('-', '', $message);
@@ -496,19 +347,19 @@ class AdvancedWebhookController extends Controller
         }
 
         elseif ($client->status == 'apply_employer_number') {
-
             $card = Card::where('phone', $this->phone)->first();
             $card->employer_number = $message;
+            $card->status='complete';
             $card->save();
             $client->status = 'none';
             $client->save();
-            $this->sendMsgInteractive([$this->company, 'Please select a payment method from the list below and we will register your NSSA portal access for a fee of RTGS $' . $this->cardAmount() . ' .', 'Payment'],
-                [['id' => 'apply_ecocash', 'title' => 'Ecocash'], ['id' => 'apply_telecash', 'title' => 'Telecash'], ['id' => 'apply_onewallet', 'title' => 'Onewallet']]);
-
-
+            $this->sendMsgText('Your application has been submitted successfully. It will be reviewed by our team shortly.');
         }
 
     }
+
+
+
 
     public function handleList($arr)
     {
@@ -561,7 +412,7 @@ class AdvancedWebhookController extends Controller
             $this->sendMsgInteractive([$this->company, 'Welcome to Pilon Records Management Bureau, how can we help you today?', 'Click Below'],
                 [['id' => 'check_registration', 'title' => 'View NSSA Status'], ['id' => 'register', 'title' => 'NSSA Registration'], ['id' => 'apply_card', 'title' => 'Portal Registration']]);
         } elseif ($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id'] == 'register') {
-            $this->sendMsgInteractive([$this->company, 'Would you like us to register you with NSSA for a fee of RTGS $' . $this->registrationAmount(), 'Get started'],
+            $this->sendMsgInteractive([$this->company, 'Confirm that you would like us to register you with NSSA?', 'Get started'],
                 [['id' => 'register_fname', 'title' => 'YES'], ['id' => 'no', 'title' => 'NO']]);
         } elseif ($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id'] == 'register_fname') {
             $client->status = 'register_fname';
@@ -573,45 +424,14 @@ class AdvancedWebhookController extends Controller
             $reg->end_date = 'NA/Currently Employed';
             $reg->status = 'complete';
             $reg->save();
-            $client->status = 'register_complete';
+            $client->status = 'none';
             $client->save();
-            $this->sendMsgInteractive([$this->company, 'Please select a payment method from the list below and we will register you with NSSA for a fee of RTGS $' . $this->registrationAmount() . ' .', 'Payment'],
-                [['id' => 'reg_ecocash', 'title' => 'Ecocash'], ['id' => 'reg_telecash', 'title' => 'Telecash'], ['id' => 'reg_onewallet', 'title' => 'onewallet']]);
+            $this->sendMsgText('Your details have been submitted for registration. This usually takes 2-3 business days.');
 
-        } elseif ($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id'] == 'reg_ecocash') {
-            $client->status = 'reg_ecocash';
-            $client->save();
-            $this->sendMsgInteractive([$this->company, 'Please enter a valid Eco Cash number', 'Payment'],
-                [['id' => 'no', 'title' => 'Cancel']]);
-        } elseif ($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id'] == 'reg_onewallet') {
-            $client->status = 'reg_onewallet';
-            $client->save();
-            $this->sendMsgInteractive([$this->company, 'Please enter a valid One Wallet number', 'Payment'],
-                [['id' => 'no', 'title' => 'Cancel']]);
-        } elseif ($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id'] == 'reg_telecash') {
-            $client->status = 'reg_telecash';
-            $client->save();
-            $this->sendMsgInteractive([$this->company, 'Please enter a valid Telecash number', 'Payment'],
-                [['id' => 'no', 'title' => 'Cancel']]);
-        } elseif ($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id'] == 'apply_ecocash') {
-            $client->status = 'apply_ecocash';
-            $client->save();
-            $this->sendMsgInteractive([$this->company, 'Please enter a valid Eco Cash number', 'Payment'],
-                [['id' => 'no', 'title' => 'Cancel']]);
-        } elseif ($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id'] == 'apply_onewallet') {
-            $client->status = 'apply_onewallet';
-            $client->save();
-            $this->sendMsgInteractive([$this->company, 'Please enter a valid One Wallet number', 'Payment'],
-                [['id' => 'no', 'title' => 'Cancel']]);
-        } elseif ($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id'] == 'apply_telecash') {
-            $client->status = 'apply_telecash';
-            $client->save();
-            $this->sendMsgInteractive([$this->company, 'Please enter a valid Telecash number', 'Payment'],
-                [['id' => 'no', 'title' => 'Cancel']]);
         } elseif ($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id'] == 'apply_card') {
             $client->status = 'apply_card_ssn';
             $client->save();
-            $this->sendMsgInteractive([$this->company, '*Disclaimer* Only individuals registered with NSSA can apply for portal registration. The registration costs RTGS $' . $this->cardAmount() . '. If you are unsure whether or not you are registered with NSSA hit the check now button otherwise hit the register portal button. ', 'Apply'],
+            $this->sendMsgInteractive([$this->company, '*Disclaimer* Only individuals registered with NSSA can apply for portal registration. If you are unsure whether or not you are registered with NSSA hit the check now button otherwise hit the register portal button. ', 'Apply'],
                 [['id' => 'check_registration', 'title' => 'Check Now'], ['id' => 'apply_card_ssn', 'title' => 'Register Portal'], ['id' => 'no', 'title' => 'Cancel']]);
         } elseif ($arr['entry'][0]['changes'][0]['value']['messages'][0]['interactive']['button_reply']['id'] == 'apply_card_ssn') {
             $client->status = 'apply_ssn';

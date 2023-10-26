@@ -5,23 +5,6 @@
 @endsection
 
 @section('content')
-    @if(session()->has('error'))
-
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            {{ session()->get('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">X</button>
-        </div>
-
-
-    @elseif(session()->has('success'))
-
-
-        <div class="alert alert-success alert-dismissible" role="alert">
-            {{ session()->get('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">X</button>
-        </div>
-
-    @endif
     <table class="table table-striped">
         <thead>
         <tr>

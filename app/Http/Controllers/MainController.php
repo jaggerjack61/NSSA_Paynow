@@ -120,7 +120,7 @@ class MainController extends Controller
 
     public function showRegistrations()
     {
-        $registrations=Registration::where('payment','complete')->paginate(30);
+        $registrations=Registration::where('status','complete')->orWhere('status','registered')->paginate(100);
         return view('pages.registrations',compact('registrations'));
     }
     public function register(Registration $id)

@@ -3,25 +3,6 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
-    <?php if(session()->has('error')): ?>
-
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <?php echo e(session()->get('error')); ?>
-
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">X</button>
-        </div>
-
-
-    <?php elseif(session()->has('success')): ?>
-
-
-        <div class="alert alert-success alert-dismissible" role="alert">
-            <?php echo e(session()->get('success')); ?>
-
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">X</button>
-        </div>
-
-    <?php endif; ?>
     <table class="table table-striped">
         <thead>
         <tr>

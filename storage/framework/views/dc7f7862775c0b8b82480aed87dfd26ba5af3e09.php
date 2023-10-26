@@ -48,7 +48,7 @@
         <div class="alert alert-danger alert-dismissible" role="alert">
             <?php echo e(session()->get('error')); ?>
 
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">X</button>
+
         </div>
 
 
@@ -58,7 +58,7 @@
         <div class="alert alert-success alert-dismissible" role="alert">
             <?php echo e(session()->get('success')); ?>
 
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">X</button>
+
         </div>
 
     <?php endif; ?>
