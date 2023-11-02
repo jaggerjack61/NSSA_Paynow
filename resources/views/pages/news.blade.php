@@ -1,4 +1,9 @@
 @extends('layouts.base')
+
+@section('title')
+   News Feed
+@endsection
+
 @section('content')
     <div class="container">
         <h1 class="text-center">News Feed</h1>

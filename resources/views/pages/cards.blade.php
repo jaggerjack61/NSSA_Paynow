@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('title')
-    Cards
+    Portal Registrations
 @endsection
 
 @section('content')

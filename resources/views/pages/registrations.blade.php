@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('title')
-    Dashboard
+    Registrations
 @endsection
 
 @section('content')

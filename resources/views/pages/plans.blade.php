@@ -1,4 +1,9 @@
 @extends('layouts.base')
+
+@section('title')
+    Pricing Plans
+@endsection
+
 @section('content')
     <div class="container">
         <h1 class="text-center">Pricing Plans</h1>

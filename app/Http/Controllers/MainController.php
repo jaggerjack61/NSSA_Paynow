@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Helpers\PaynowHelper;
 use App\Models\Card;
 use App\Models\Detail;
+use App\Models\NewsFeedItem;
+use App\Models\PricingPlan;
 use App\Models\Registration;
 use App\Models\SiteMessage;
 use App\Models\WhatsappSetting;
@@ -16,15 +18,16 @@ class MainController extends Controller
 {
     public function index()
     {
-        return view('index');
-        // $pay->makePaymentMobile('unique','jarai.samuel@gmail.com',[['SSN Request',1]]);
-        // return view('pages.home');
+        $news = NewsFeedItem::orderBy('created_at','desc')->get();
+        $plans = PricingPlan::orderBy('amount','asc')->get();
+        return view('index', compact('news','plans'));
+
     }
     public function showWhatsapp()
     {
+
         return view('welcome');
-        // $pay->makePaymentMobile('unique','jarai.samuel@gmail.com',[['SSN Request',1]]);
-        // return view('pages.home');
+
     }
 
     public function dashboard()

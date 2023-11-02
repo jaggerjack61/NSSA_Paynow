@@ -42,7 +42,7 @@
 {{--                        <a class="nav-link" href="{{route('settings')}}">Settings</a>--}}
 {{--                    </li>--}}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('logout')}}">Logout</a>
+                        <a class="nav-link alert-link bg-danger rounded" href="{{route('logout')}}">Logout</a>
                     </li>
 
                 </ul>
