@@ -145,7 +145,7 @@ class MainController extends Controller
                 'email'=>'required'
             ]);
             SiteMessage::create($data);
-            return back()->with('success','it worked');
+            return back()->with('success','Message has been sent.');
         }
         catch (\Exception $e) {
             return back()->with('error', $e->getMessage());

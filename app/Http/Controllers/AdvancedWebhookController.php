@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class AdvancedWebhookController extends Controller
 {
     public $phone;
-    public $company = 'TestPRMB';
+    public $company = 'PRMB';
     public $settings;
 
     public function __construct()

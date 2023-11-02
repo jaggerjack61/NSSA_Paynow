@@ -3,6 +3,7 @@
 
 <head>
 
+    <script src="second/assets/js/jquery-2.1.0.min.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -21,6 +22,41 @@
     <link rel="stylesheet" type="text/css" href="second/assets/css/font-awesome.css">
 
     <link rel="stylesheet" href="second/assets/css/templatemo-softy-pinko.css">
+    <style>
+        /* News Feed */
+        .news-feed {
+            padding: 80px 0;
+        }
+
+        .news-slider {
+            overflow: hidden;
+        }
+
+        .news-slider .slide {
+            display: flex;
+            float: left;
+            width: 100%;
+        }
+
+        .news-item {
+            background: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            min-height: 300px;
+        }
+
+        .news-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .news-text {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </style>
 
 </head>
 
@@ -54,6 +90,7 @@
                         <li><a href="#features">How it Works</a></li>
                         <li><a href="#work-process">Our Values</a></li>
                         <li><a href="#pricing-plans">Pricing</a></li>
+                        <li><a href="#news-feed">News Feed</a></li>
                         <li><a href="#contact-us">Contact Us</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -81,7 +118,6 @@
     <div class="alert alert-success alert-dismissible" role="alert">
         <?php echo e(session()->get('success')); ?>
 
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">X</button>
     </div>
 
 <?php endif; ?>
@@ -111,7 +147,7 @@
             <div class="col-lg-12">
                 <div class="row">
                     <!-- ***** Features Small Item Start ***** -->
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.2s">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.2s">
                         <div class="features-small-item">
                             <div class="icon">
                                 <i><img src="second/assets/images/featured-item-01.png" alt=""></i>
@@ -124,7 +160,7 @@
                     <!-- ***** Features Small Item End ***** -->
 
                     <!-- ***** Features Small Item Start ***** -->
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.4s">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.4s">
                         <div class="features-small-item">
                             <div class="icon">
                                 <i><img src="second/assets/images/featured-item-01.png" alt=""></i>
@@ -137,13 +173,24 @@
                     <!-- ***** Features Small Item End ***** -->
 
                     <!-- ***** Features Small Item Start ***** -->
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.6s">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.6s">
                         <div class="features-small-item">
                             <div class="icon">
                                 <i><img src="second/assets/images/featured-item-01.png" alt=""></i>
                             </div>
                             <h5 class="features-title">NSSA Pension Application</h5>
                             <p>Life pension application is one of the most time consuming and long processes that most old aged pensioners face once they retire.PRMB offers convenient service of applying for employee’s life pensions to all pensioners. </p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12" data-scroll-reveal="enter bottom move 50px over 0.6s after 0.2s">
+                        <div class="features-small-item">
+                            <div class="icon">
+                                <i><img src="second/assets/images/featured-item-01.png" alt=""></i>
+                            </div>
+                            <h5 class="features-title">Team Training</h5>
+                            <p>We offer training services to individuals and corporations. That is why we are the first choice for any corporation looking to train their employees in NSSA taxation calculations and implementations for payroll purposes.
+                            </p>
                         </div>
                     </div>
                     <!-- ***** Features Small Item End ***** -->
@@ -382,6 +429,39 @@
 </section>
 <!-- ***** Pricing Plans End ***** -->
 
+<!-- ***** Pricing Plans End ***** -->
+
+<!-- ***** News Feed Start ***** -->
+<section class="news-feed" id="news-feed">
+    <div class="container">
+        <h2 class="section-title">Latest News</h2>
+
+        <div class="news-slider">
+            <div class="slide">
+                <div class="news-item">
+                    <h3 class="news-title">New Service Launched</h3>
+                    <p class="news-text">We have launched a new digital archiving service to help clients store records securely online.</p>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="news-item">
+                    <h3 class="news-title">Office Expansion</h3>
+                    <p class="news-text">We have expanded our office capacity to serve more clients across the country.</p>
+                </div>
+            </div>
+
+            <div class="slide">
+                <div class="news-item">
+                    <h3 class="news-title">Awards & Recognition</h3>
+                    <p class="news-text">We won the top SMB data management provider award this year.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ***** News Feed End ***** -->
+
 <!-- ***** Contact Us Start ***** -->
 <section class="section colored" id="contact-us">
     <div class="container">
@@ -404,13 +484,18 @@
             <!-- ***** Contact Text Start ***** -->
             <div class="col-lg-4 col-md-6 col-sm-12">
                 <h5 class="margin-bottom-30">Keep in touch</h5>
+                <p>Working Hours</p>
+                <p class="contact-text">Mon - Fri (08:00 - 17:00)</p>
+                <p><br>Address</p>
                 <div class="contact-text">
-                    <p>23, Sealous Avenue,
-                        <br>Harare, Zimbabwe</p>
-                    <p>Contact us on:
-                    <br>Email:
-                    <br>Phone:0776477673</p>
+                    <p>8, Gloucester Eastlea,
+                    <br>Harare, Zimbabwe<br></p>
                 </div>
+                <p>Contact us on:</p>
+                   <p class="contact-text"> info@recordsmanager.co.zw
+                    <br>admin@recordsmanager.co.zw
+                    <br>Phone:+263776477673</p>
+
             </div>
             <!-- ***** Contact Text End ***** -->
 
@@ -473,8 +558,9 @@
     </div>
 </footer>
 
+
 <!-- jQuery -->
-<script src="second/assets/js/jquery-2.1.0.min.js"></script>
+
 
 <!-- Bootstrap -->
 <script src="second/assets/js/popper.js"></script>

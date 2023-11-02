@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NewsFeedController;
+use App\Http\Controllers\PricingPlanController;
+use App\Http\Controllers\PricingPlanItemController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +38,25 @@ Route::controller(MainController::class)->group(function(){
     Route::get('/register/{id}','register')->name('register')->middleware('auth');
     Route::get('/unregister/{id}','unregister')->name('unregister')->middleware('auth');
 });
+
+Route::middleware('auth')->group(function(){
+    Route::controller(NewsFeedController::class)->group(function(){
+       Route::get('/news','index')->name('show-news');
+       Route::post('/create-news','create')->name('create-news');
+       Route::get('/delete-news/{id}','delete')->name('delete-news');
+    });
+    Route::controller(PricingPlanController::class)->group(function(){
+        Route::get('/pricing','index')->name('show-pricing');
+        Route::post('/create-pricing','store')->name('create-pricing');
+        Route::get('/delete-pricing/{id}','delete')->name('delete-pricing');
+    });
+
+    Route::controller(PricingPlanItemController::class)->group(function(){
+        Route::post('/create-pricing-item','store')->name('create-pricing-item');
+        Route::get('/delete-pricing-item/{id}','delete')->name('delete-pricing-item');
+    });
+});
+
 Route::controller(AuthController::class)->group(function(){
    Route::post('/','login')->name('login');
    Route::get('/logout','logout')->name('logout');
