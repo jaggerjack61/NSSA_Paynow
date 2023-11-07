@@ -124,7 +124,7 @@
     <div class="header-text">
         <div class="container">
             <div class="row">
-                <div style="opacity: 90%"
+                <div style="opacity: 95%"
                      class="offset-xl-3 col-xl-6 offset-lg-2 col-lg-8 col-md-12 col-sm-12 bg-white p-3 features-small-item">
                     <h1 class="text-primary">Our Vision</h1>
                     <h4 class="text-secondary p-2 m-2">To be the first choice data and records management service
@@ -225,7 +225,7 @@
                     <h2 class="section-title">Let’s discuss about your future</h2>
                 </div>
                 <div class="left-text">
-                    <p>You can call us on 0776477673 or send us a whatsapp message on 0776477673 and we will call you
+                    <p>You can call us on 0778839572 or send us a whatsapp message on 0778839572 and we will call you
                         back.
                         Our dedicated team of professionals will walk you through our policies regarding how we will
                         keep your records safe
@@ -258,13 +258,13 @@
                         at Pilon Records Management Bureau make the process as easy as clicking a few buttons. Click
                         <span class="text-primary"><a href="{{route('whatsapp')}}">here</a></span> to use
                         our whatsapp chatbot to check if you are registered with NSSA and to register if you are not.
-                        For organisations look to do mass registration contact us on 0776477673</p>
+                        For organisations look to do mass registration contact us on 0778839572</p>
                 </div>
             </div>
             <div class="col-lg-1"></div>
             <div class="col-lg-5 col-md-12 col-sm-12 align-self-center mobile-bottom-fix-big"
                  data-scroll-reveal="enter right move 30px over 0.6s after 0.4s">
-                <img src="second/assets/images/right-image.png" class="rounded img-fluid d-block mx-auto" alt="App">
+                <img src="second/assets/images/me.jpg" class="rounded img-fluid d-block mx-auto" alt="App">
             </div>
         </div>
     </div>
@@ -386,7 +386,7 @@
                             </ul>
                         </div>
                         <div class="pricing-footer" style="position:absolute; bottom:75px;right: 120px;">
-                            <a href="http://wa.me/263776477673"
+                            <a href="http://wa.me/263778839572"
                                class="btn rounded btn-{{$bootstrapColors[$colorIndex]}}">Purchase Now</a>
                         </div>
                     </div>
@@ -473,9 +473,9 @@
 
             @foreach($news as $item)
                 <div class="row m-2 p-2">
-                    <div class="col-3 bg"><img
+                    <div class="col-3 bg"><a href="{{$item->link}}"> <img
                             style="float:left;overflow: hidden;height:200px;width:200px; object-fit:scale-down"
-                            src="{{$item->image}}"></div>
+                            src="{{$item->image}}"></a></div>
                     <div class="col-9">
                         <span><h3 class="news-title">{{$item->title}}</h3><p>{{$item->created_at->diffForHumans()}}</p></span>
                         <p class="news-text">{{$item->content}}</p>
@@ -520,7 +520,7 @@
                 <p>Contact us on:</p>
                 <p class="contact-text"> info@recordsmanager.co.zw
                     <br>admin@recordsmanager.co.zw
-                    <br>Phone:+263776477673</p>
+                    <br>Phone:+263778839572</p>
 
             </div>
             <!-- ***** Contact Text End ***** -->
@@ -572,11 +572,11 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <ul class="social">
-                    <li><a href="https://www.facebook.com/profile.php?id=100089713475530"><i class="fa fa-facebook"></i></a>
+                    <li><a href="#"><i class="fa fa-facebook"></i></a>
                     </li>
-                    <li><a href="https://www.instagram.com/pilonrecordsmanagement/"><i class="fa fa-instagram"></i></a>
+                    <li><a href="#"><i class="fa fa-instagram"></i></a>
                     </li>
-                    <li><a href="https://wa.me/263776477673"><i class="fa fa-whatsapp"></i></a></li>
+                    <li><a href="#"><i class="fa fa-whatsapp"></i></a></li>
 
                 </ul>
             </div>

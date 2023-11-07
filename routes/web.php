@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function(){
     Route::controller(NewsFeedController::class)->group(function(){
        Route::get('/news','index')->name('show-news');
        Route::post('/create-news','create')->name('create-news');
+        Route::post('/update-news','update')->name('update-news');
        Route::get('/delete-news/{id}','delete')->name('delete-news');
     });
     Route::controller(PricingPlanController::class)->group(function(){

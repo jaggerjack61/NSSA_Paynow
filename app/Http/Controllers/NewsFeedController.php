@@ -30,6 +30,9 @@ class NewsFeedController extends Controller
         $newsFeedItem->title = $validatedData['title'];
         $newsFeedItem->content = $validatedData['content'];
         $newsFeedItem->image = 'news_feed_images/' . $imageName; // Update the image path
+        if($request->link) {
+            $newsFeedItem->link = $request->link;
+        }
         $newsFeedItem->save();
 
         return back()->with('success', 'News feed item created');
@@ -45,5 +48,31 @@ class NewsFeedController extends Controller
         } else {
             return back()->with('error','News feed item not found');
         }
+    }
+
+    public function update(Request $request)
+    {
+        $newsFeedItem = NewsFeedItem::find($request->id);
+        $validatedData = $request->validate([
+            'title' => 'required|string',
+            'content' => 'required|string|max:1000'
+        ]);
+
+        if($request->image) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('news_feed_images'), $imageName); // Store image in the "public/news_feed_images" directory
+            $newsFeedItem->image = 'news_feed_images/' . $imageName; // Update the image path
+        }
+
+        $newsFeedItem->title = $validatedData['title'];
+        $newsFeedItem->content = $validatedData['content'];
+        if($request->link) {
+            $newsFeedItem->link = $request->link;
+        }
+        $newsFeedItem->save();
+
+        return back()->with('success', 'News feed item edited.');
+
     }
 }

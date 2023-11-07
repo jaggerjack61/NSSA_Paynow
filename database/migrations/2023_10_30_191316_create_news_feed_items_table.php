@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('content',1000);
             $table->string('image');
+            $table->string('link')->default('#');
             $table->timestamps();
         });
     }
