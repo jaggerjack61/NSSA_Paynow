@@ -7,7 +7,7 @@
         <h1 class="text-center">News Feed</h1>
         <!-- Button to trigger modal for adding new item -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal">
-            Add New Item
+            Add News
         </button>
         <!-- Modal for adding new item -->
         <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
@@ -17,7 +17,7 @@
                           enctype="multipart/form-data">
                         <?php echo csrf_field(); ?>
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addItemModalLabel">Add New Item</h5>
+                            <h5 class="modal-title" id="addItemModalLabel">Add News</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -87,7 +87,7 @@
                                   enctype="multipart/form-data">
                                 <?php echo csrf_field(); ?>
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="addItemModalLabel">Add New Item</h5>
+                                    <h5 class="modal-title" id="addItemModalLabel">Edit News</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -116,7 +116,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <!-- Button to submit form -->
-                                    <button type="submit" class="btn btn-primary" id="addItemBtn">Add Item</button>
+                                    <button type="submit" class="btn btn-primary" id="addItemBtn">Edit Item</button>
                                     <!-- Button to close modal -->
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 </div>

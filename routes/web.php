@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function(){
     Route::controller(PricingPlanController::class)->group(function(){
         Route::get('/pricing','index')->name('show-pricing');
         Route::post('/create-pricing','store')->name('create-pricing');
+        Route::post('/update-pricing','update')->name('update-pricing');
         Route::get('/delete-pricing/{id}','delete')->name('delete-pricing');
     });
 

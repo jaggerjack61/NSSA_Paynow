@@ -9,7 +9,7 @@
         <h1 class="text-center">News Feed</h1>
         <!-- Button to trigger modal for adding new item -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal">
-            Add New Item
+            Add News
         </button>
         <!-- Modal for adding new item -->
         <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
@@ -19,7 +19,7 @@
                           enctype="multipart/form-data">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addItemModalLabel">Add New Item</h5>
+                            <h5 class="modal-title" id="addItemModalLabel">Add News</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -89,7 +89,7 @@
                                   enctype="multipart/form-data">
                                 @csrf
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="addItemModalLabel">Add New Item</h5>
+                                    <h5 class="modal-title" id="addItemModalLabel">Edit News</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>

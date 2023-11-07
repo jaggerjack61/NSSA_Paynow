@@ -1,10 +1,8 @@
-@extends('layouts.base')
-
-@section('title')
+<?php $__env->startSection('title'); ?>
     Pricing Plans
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container">
         <h1 class="text-center">Pricing Plans</h1>
         <!-- Button to trigger modal for adding new item -->
@@ -15,8 +13,8 @@
         <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form id="addItemForm" action="{{route('create-pricing')}}" method="post">
-                        @csrf
+                    <form id="addItemForm" action="<?php echo e(route('create-pricing')); ?>" method="post">
+                        <?php echo csrf_field(); ?>
                         <div class="modal-header">
                             <h5 class="modal-title" id="addItemModalLabel">Add New Plan</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -60,39 +58,39 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($plans as $plan)
+            <?php $__currentLoopData = $plans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $plan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                    <td>{{$plan->name}}</td>
-                    <td>{{$plan->amount}}</td>
+                    <td><?php echo e($plan->name); ?></td>
+                    <td><?php echo e($plan->amount); ?></td>
                     <td>
-                        @foreach($plan->items as $item)
+                        <?php $__currentLoopData = $plan->items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="row">
-                                <div class="col-8">{{$item->name}}</div>
+                                <div class="col-8"><?php echo e($item->name); ?></div>
                                 <div class="col-4"><a class="btn btn-danger btn-sm"
-                                                      href="{{route('delete-pricing-item',$item->id)}}">Delete</a></div>
+                                                      href="<?php echo e(route('delete-pricing-item',$item->id)); ?>">Delete</a></div>
                             </div>
                             <hr>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                     </td>
                     <td>
-                        <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#addItemModal{{$plan->id}}">Add
+                        <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#addItemModal<?php echo e($plan->id); ?>">Add
                             Item</a>
-                        <a class="btn btn-danger btn-sm" href="{{route('delete-pricing',$plan->id)}}">Delete Plan</a>
-                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editPlanModal{{$plan->id}}">Edit Plan</a>
+                        <a class="btn btn-danger btn-sm" href="<?php echo e(route('delete-pricing',$plan->id)); ?>">Delete Plan</a>
+                        <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editPlanModal<?php echo e($plan->id); ?>">Edit Plan</a>
 
                     </td>
                 </tr>
 
 
-                <div class="modal fade" id="addItemModal{{$plan->id}}" tabindex="-1" aria-labelledby="addItemModalLabel"
+                <div class="modal fade" id="addItemModal<?php echo e($plan->id); ?>" tabindex="-1" aria-labelledby="addItemModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form id="addItemForm" action="{{route('create-pricing-item')}}" method="post">
-                                @csrf
+                            <form id="addItemForm" action="<?php echo e(route('create-pricing-item')); ?>" method="post">
+                                <?php echo csrf_field(); ?>
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="addItemModalLabel">Add New Item to {{$plan->name}} </h5>
+                                    <h5 class="modal-title" id="addItemModalLabel">Add New Item to <?php echo e($plan->name); ?> </h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -104,7 +102,7 @@
                                         <label for="title">Title</label>
                                         <input type="text" class="form-control" id="title" name="name" required>
                                     </div>
-                                    <input type="hidden" name="pricing_plan_id" value="{{$plan->id}}">
+                                    <input type="hidden" name="pricing_plan_id" value="<?php echo e($plan->id); ?>">
 
 
                                 </div>
@@ -119,12 +117,12 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="editPlanModal{{$plan->id}}" tabindex="-1" aria-labelledby="addItemModalLabel"
+                <div class="modal fade" id="editPlanModal<?php echo e($plan->id); ?>" tabindex="-1" aria-labelledby="addItemModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form id="addItemForm" action="{{route('update-pricing')}}" method="post">
-                                @csrf
+                            <form id="addItemForm" action="<?php echo e(route('update-pricing')); ?>" method="post">
+                                <?php echo csrf_field(); ?>
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="addItemModalLabel">Edit Plan</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -133,14 +131,14 @@
                                 </div>
                                 <div class="modal-body">
                                     <!-- Form for adding new item -->
-                                    <input type="hidden" value="{{$plan->id}}" name="id" />
+                                    <input type="hidden" value="<?php echo e($plan->id); ?>" name="id" />
                                     <div class="form-group">
                                         <label for="title">Title</label>
-                                        <input type="text" class="form-control" id="title" name="name" value="{{$plan->name}}" required>
+                                        <input type="text" class="form-control" id="title" name="name" value="<?php echo e($plan->name); ?>" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="content">Price</label>
-                                        <input type="number" step="0.01" class="form-control" value="{{$plan->amount}}" id="content" name="amount"
+                                        <input type="number" step="0.01" class="form-control" value="<?php echo e($plan->amount); ?>" id="content" name="amount"
                                                required></input>
                                     </div>
 
@@ -157,8 +155,10 @@
                     </div>
                 </div>
 
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
         </table>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.base', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\LENOVO\Documents\github\NSSA_Paynow\resources\views/pages/plans.blade.php ENDPATH**/ ?>
