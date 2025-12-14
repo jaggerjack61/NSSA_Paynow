@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\PaynowHelper;
+use App\Models\Card;
 use App\Models\Detail;
+use App\Models\NewsFeedItem;
+use App\Models\PricingPlan;
+use App\Models\Registration;
+use App\Models\SiteMessage;
 use App\Models\WhatsappSetting;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -11,11 +16,18 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class MainController extends Controller
 {
-    public function index(PaynowHelper $pay)
+    public function index()
     {
+        $news = NewsFeedItem::orderBy('created_at','desc')->get();
+        $plans = PricingPlan::orderBy('amount','asc')->get();
+        return view('index', compact('news','plans'));
+
+    }
+    public function showWhatsapp()
+    {
+
         return view('welcome');
-        // $pay->makePaymentMobile('unique','jarai.samuel@gmail.com',[['SSN Request',1]]);
-        // return view('pages.home');
+
     }
 
     public function dashboard()
@@ -91,7 +103,9 @@ class MainController extends Controller
     public function setSettings(Request $request)
     {
      $settings=WhatsappSetting::first();
-     $settings->amount=$request->amount;
+     $settings->amount_check=$request->amount_check;
+     $settings->amount_register=$request->amount_register;
+     $settings->amount_card=$request->amount_card;
      $settings->save();
      return back();
     }
@@ -106,4 +120,67 @@ class MainController extends Controller
     {
         return view('pages.privacy-policy');
     }
+
+    public function showRegistrations()
+    {
+        $registrations=Registration::where('status','complete')->orWhere('status','registered')->paginate(100);
+        return view('pages.registrations',compact('registrations'));
+    }
+    public function register(Registration $id)
+    {
+        $id->status='registered';
+        $id->save();
+        return back();
+    }
+    public function unregister(Registration $id)
+    {
+        $id->status='complete';
+        $id->save();
+        return back();
+    }
+
+    public function saveMessage(Request $request)
+    {
+        try{
+            $data=$request->validate([
+                'message' =>'required',
+                'name'=>'required',
+                'email'=>'required'
+            ]);
+            SiteMessage::create($data);
+            return back()->with('success','Message has been sent.');
+        }
+        catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+    }
+
+    public function showMessages()
+    {
+        $messages=SiteMessage::orderBy('created_at', 'desc')->paginate(30);
+        return view('pages.messages',compact('messages'));
+    }
+    public function attend(SiteMessage $id)
+    {
+        $id->status='attended';
+        $id->save();
+        return back()->with('success',$id->name.' has been attended.');
+    }
+
+    public function showCards()
+    {
+        $cards=Card::orderBy('created_at', 'desc')->paginate(30);
+        return view('pages.cards',compact('cards'));
+    }
+    public function finish(Card $id)
+    {
+        $id->status='finished';
+        $id->save();
+        return back()->with('success','This card has been marked as completed.');
+    }
+
+
+
+
 }

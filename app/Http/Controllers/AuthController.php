@@ -15,7 +15,7 @@ class AuthController extends Controller
         ]);
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('dashboard');
+            return redirect()->route('registrations');
         }
         else{
             return redirect()->route('home');
@@ -26,7 +26,7 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
-        return redirect()->route('dashboard');
+        return redirect()->route('home');
     }
 
     public function register(Request $request)
