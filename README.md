@@ -1,5 +1,7 @@
 # NSSA Paynow - WhatsApp Bot System
 
+> **Note**: The `remove-payments` branch is currently the most up-to-date version of this project.
+
 ## Overview
 
 NSSA Paynow is a Laravel-based WhatsApp bot system designed to assist users with NSSA (National Social Security Authority) registration and status checking. The system provides an automated WhatsApp interface that allows users to:
