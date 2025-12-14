@@ -81,7 +81,7 @@
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
                     <a href="#" class="logo m-3">
-                        <img src="second/assets/images/pilon.png" width="68px" alt="Softy Pinko"/>
+                        <img src="second/assets/images/pilon.jpg" width="80px" alt="Softy Pinko"/>
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
