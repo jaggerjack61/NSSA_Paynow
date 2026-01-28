@@ -37,7 +37,7 @@ The system includes a web-based admin dashboard for managing client requests, re
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/jaggerjack61/NSSA_Paynow.git
 cd NSSA_Paynow
 ```
 
